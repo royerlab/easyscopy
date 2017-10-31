@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+		http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>net.haesleinhuepf</groupId>
+		<artifactId>ClearSciJavaPom</artifactId>
+		<version>0.5.0</version>
+		<relativePath />
+	</parent>
+
+	<groupId>net.clearcontrol</groupId>
+	<artifactId>XWingFijiPlugin</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+
+	<name>XWingFijiPlugin</name>
+	<description>XWingFijiPlugin</description>
+	<url>https://github.com/haesleinhuepf/XWingFijiPlugin</url>
+	<inceptionYear>2017</inceptionYear>
+	<organization>
+		<name>clearcontrol</name>
+		<url>http://clearcontrol.net</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>haesleinhuepf</id>
+			<name>Robert Haase</name>
+			<url>https://haesleinhuepf.net</url>
+			<organization>MPI CBG</organization>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>none</name>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>ImageJ Forum</name>
+			<archive>http://forum.imagej.net/</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/haesleinhuepf/XWingFijiPlugin</connection>
+        <developerConnection>scm:git:git@github.com/haesleinhuepf/XWingFijiPlugin</developerConnection>
+        <tag>HEAD</tag>
+		<url>https://github.com/haesleinhuepf/XWingFijiPlugin</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/haesleinhuepf/XWingFijiPlugin/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>None</system>
+	</ciManagement>
+
+	<properties>
+		<package-name>net.clearcontrol</package-name>
+		<license.licenseName>bsd_3</license.licenseName>
+		<license.copyrightOwners>Robert Haase</license.copyrightOwners>
+		<imagej.app.directory>C:/Programs/XWingFiji.app/</imagej.app.directory>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>imagej.public</id>
+			<url>http://maven.imagej.net/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>imagej</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>imagej-legacy</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-ij</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.clearvolume</groupId>
+			<artifactId>ClearCL</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.haesleinhuepf</groupId>
+			<artifactId>ClearUtilities</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.clearcontrol</groupId>
+			<artifactId>XWing</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jogl</groupId>
+			<artifactId>jogl-all</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.scif</groupId>
+			<artifactId>pom-scifio</artifactId>
+			<version>5.8.0</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>net.clearcontrol</groupId>
+			<artifactId>clearcontrol</artifactId>
+			<version>0.9.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>io.scif</groupId>
+					<artifactId>pom-scifio</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+</project>
