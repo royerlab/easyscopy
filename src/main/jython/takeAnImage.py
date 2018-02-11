@@ -1,19 +1,55 @@
-#@UiService ui
+from clearcontrol.devices.lasers import LaserDeviceInterface;
+from clearcontrol.microscope.lightsheet.imaging import DirectImage;
+from clearcontrol.microscope.lightsheet.imaging import DirectImageStack;
+from net.clearcontrol.lightsheet.easyscopy import EasyScopyUtilities;
+from net.clearcontrol.lightsheet.easyscopy.implementations.xwing import XWingScope;
+from net.imglib2 import RandomAccessibleInterval;
+from net.imglib2.img.display.imagej import ImageJFunctions;
+from net.imglib2.type.numeric.integer import UnsignedShortType;
 
-from xwing.main import XWingMain
 
-xwingmain = XWingMain.getInstance()
+# for real scope tests:
+# XWingScope.sSimulated = false;
 
-microscope = xwingmain.getLightSheetMicroscope
+# The XWingScope is an instance of EasyLightSheetMicroscope
+lScope = XWingScope.getInstance();
 
-from clearcontrol.microscope.lightsheet.extendeddepthfield import FocusableImager
+# Turn on a laser
+lLaser = lScope.getLaserDevice(488);
+lLaser.setTargetPowerInPercent(20);
+lLaser.setLaserOn(True);
+lLaser.setLaserPowerOn(True);
 
-imager = FocusableImager(microscope, 0, 0, 1)
-imager.setFieldOfView(256, 256)
-imager.addImageRequest(100, 100)
-stack = imager.execute()
+# Take an image
+lImage = lScope.getDirectImage();
+lImage.setImageWidth(2048);
+lImage.setImageHeight(512);
+lImage.setIlluminationZ(25);
+lImage.setDetectionZ(25);
 
-from clearcontrol.stack.imglib2 import StackToImgConverte
-img = StackToImgConverter(stack).getRandomAccessibleInterval()
+# start acquisition
+img = EasyScopyUtilities.stackToImg(lImage.getImage());
 
-ui.show(img)
+# take an imagestack
+lImageStack = lScope.getDirectImageStack();
+lImageStack.setImageWidth(2048);
+lImageStack.setImageHeight(512);
+lImageStack.setIlluminationZ(25);
+lImageStack.setDetectionZ(25);
+lImageStack.setNumberOfRequestedImages(10);
+lImageStack.setDetectionZStepDistance(0);
+lImageStack.setIlluminationZStepDistance(1);
+
+# start acquisition
+imgStack = EasyScopyUtilities.stackToImg(lImage.getImage());
+
+# show the images
+ImageJFunctions.show(img);
+ImageJFunctions.show(imgStack);
+
+
+# That's always a godd idea by the end!
+lScope.shutDownAllLasers();
+
+# bye bye
+lScope.terminate();

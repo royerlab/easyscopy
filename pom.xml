@@ -6,22 +6,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>net.haesleinhuepf</groupId>
-		<artifactId>ClearSciJavaPom</artifactId>
-		<version>0.5.0</version>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>19.2.0</version>
 		<relativePath />
 	</parent>
 
 	<groupId>net.clearcontrol</groupId>
-	<artifactId>XWingFijiPlugin</artifactId>
+	<artifactId>easyscopy</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
-	<name>XWingFijiPlugin</name>
-	<description>XWingFijiPlugin</description>
-	<url>https://github.com/haesleinhuepf/XWingFijiPlugin</url>
-	<inceptionYear>2017</inceptionYear>
+	<name>EasyScopy</name>
+	<description>EasyScopy</description>
+	<url>https://github.com/ClearControl/EasyScopy</url>
+	<inceptionYear>2018</inceptionYear>
 	<organization>
-		<name>clearcontrol</name>
+		<name>ClearControl</name>
 		<url>http://clearcontrol.net</url>
 	</organization>
 	<licenses>
@@ -62,14 +62,14 @@
 	</mailingLists>
 
 	<scm>
-		<connection>scm:git:git://github.com/haesleinhuepf/XWingFijiPlugin</connection>
-        <developerConnection>scm:git:git@github.com/haesleinhuepf/XWingFijiPlugin</developerConnection>
+		<connection>scm:git:git://github.com/ClearControl/EasyScopy</connection>
+        <developerConnection>scm:git:git@github.com/ClearControl/EasyScopy</developerConnection>
         <tag>HEAD</tag>
-		<url>https://github.com/haesleinhuepf/XWingFijiPlugin</url>
+		<url>https://github.com/ClearControl/EasyScopy</url>
 	</scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/haesleinhuepf/XWingFijiPlugin/issues</url>
+		<url>https://github.com/ClearControl/EasyScopy/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>None</system>
@@ -78,7 +78,7 @@
 	<properties>
 		<package-name>net.clearcontrol</package-name>
 		<license.licenseName>bsd_3</license.licenseName>
-		<license.copyrightOwners>Robert Haase</license.copyrightOwners>
+		<license.copyrightOwners>Robert Haase, MPI CBG</license.copyrightOwners>
 		<imagej.app.directory>C:/Programs/XWingFiji.app/</imagej.app.directory>
 	</properties>
 
@@ -87,9 +87,38 @@
 			<id>imagej.public</id>
 			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
+
+		<repository>
+			<id>sqy</id>
+			<url>http://dl.bintray.com/sqeazy/maven</url>
+		</repository>
+		<repository>
+			<id>hslh</id>
+			<url>http://dl.bintray.com/haesleinhuepf/snapshots</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>net.clearcontrol</groupId>
+			<artifactId>XWing</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>net.clearcontrol</groupId>
+			<artifactId>clearcontrol-lightsheet</artifactId>
+			<version>1.17.4-RH</version>
+		</dependency>
+		<dependency>
+			<groupId>net.clearcontrol</groupId>
+			<artifactId>clearcontrol</artifactId>
+			<version>0.14.2-RH</version>
+		</dependency>
+		<dependency>
+			<groupId>net.clearvolume</groupId>
+			<artifactId>clearcl</artifactId>
+			<version>0.5.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.scijava</groupId>
 			<artifactId>scijava-common</artifactId>
@@ -111,44 +140,9 @@
 			<artifactId>imglib2-ij</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.clearvolume</groupId>
-			<artifactId>ClearCL</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.haesleinhuepf</groupId>
-			<artifactId>ClearUtilities</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.clearcontrol</groupId>
-			<artifactId>XWing</artifactId>
-			<version>1.0.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jogamp.jogl</groupId>
-			<artifactId>jogl-all</artifactId>
-			<version>2.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jogamp.gluegen</groupId>
-			<artifactId>gluegen-rt</artifactId>
-			<version>2.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>io.scif</groupId>
-			<artifactId>pom-scifio</artifactId>
-			<version>5.8.0</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>net.clearcontrol</groupId>
-			<artifactId>clearcontrol</artifactId>
-			<version>0.9.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>io.scif</groupId>
-					<artifactId>pom-scifio</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
