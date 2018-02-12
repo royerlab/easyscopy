@@ -42,20 +42,21 @@ ImageJFunctions.show(img);
 
 
 # take an imagestack
-#lImageStack = lScope.getDirectImageStack();
-#lImageStack.setImageWidth(2048);
-#lImageStack.setImageHeight(512);
-#lImageStack.setIlluminationZ(25);
-#lImageStack.setDetectionZ(25);
-#lImageStack.setNumberOfRequestedImages(10);
-#lImageStack.setDetectionZStepDistance(0);
-#lImageStack.setIlluminationZStepDistance(1);
+lImageStack = lScope.getDirectImageStack();
+lImageStack.setImageWidth(2048);
+lImageStack.setImageHeight(512);
+lImageStack.setIlluminationZ(25);
+lImageStack.setDetectionZ(25);
+lImageStack.setNumberOfRequestedImages(10);
+lImageStack.setDetectionZStepDistance(0);
+lImageStack.setIlluminationZStepDistance(1);
+lImageStack.setExposureTimeInSeconds(1.0);
 
 # start acquisition
-#imgStack = EasyScopyUtilities.stackToImg(lImage.getImage());
+imgStack = EasyScopyUtilities.stackToImg(lImageStack.getImage());
 
 # show the images
-#ImageJFunctions.show(imgStack);
+ImageJFunctions.show(imgStack);
 
 
 # That's always a godd idea by the end!
