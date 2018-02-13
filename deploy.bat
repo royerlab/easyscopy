@@ -1,1 +1,1 @@
-mvn -Denforcer.skip package
+mvn -Denforcer.skip install
