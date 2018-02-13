@@ -1,12 +1,10 @@
 # EasyScopy
 Fiji plugin for microscope control scripting. 
 
-After installation of the easyscopy.jar and its dependencies, you can communicate to your microscope and take images from Fiji scripts. However, your microscope should be controlled by ClearControl:
-
-http://github.com/ClearControl
+After installation of the easyscopy.jar and its dependencies, you can communicate to your microscope and take images from Fiji scripts. However, your microscope should be controlled by ClearControl (http://github.com/ClearControl). To play with the library, there are simulated microscopes available.
 
 ```
-lScope = XWingScope.getInstance();
+lScope = SimulatedXWingScope.getInstance();
 
 # Turn on a laser
 lLaser = lScope.getDevice("Laser", "488");
@@ -23,7 +21,7 @@ lImage.setDetectionZ(25);
 lTakenImage = lImage.acquire()
 
 # convert and show
-lImglib2Image = EasyScopyUtilities.stackToImg(lTakeImage);
+lImglib2Image = EasyScopyUtilities.stackToImg(lTakenImage);
 ImageJFunctions.show(lImglib2Image);
 
 # That's always a godd idea by the end!
