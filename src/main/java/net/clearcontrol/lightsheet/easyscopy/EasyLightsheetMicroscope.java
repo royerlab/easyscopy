@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public abstract class EasyLightsheetMicroscope
 {
   private LightSheetMicroscope mLightSheetMicroscope;
+
   public EasyLightsheetMicroscope(LightSheetMicroscope lLightSheetMicroscope) {
     mLightSheetMicroscope = lLightSheetMicroscope;
   }
@@ -36,31 +37,36 @@ public abstract class EasyLightsheetMicroscope
     }
   }
 
-  /**
-   * Get a laser device
-   *
-   * @param pWavelengthInNanometers
-   * @return
-   */
-  public LaserDeviceInterface getLaserDevice(int pWavelengthInNanometers) {
-    ArrayList<LaserDeviceInterface> lList = mLightSheetMicroscope.getDevices(LaserDeviceInterface.class);
-    for (LaserDeviceInterface lLaser : lList) {
-      if (lLaser.getWavelengthInNanoMeter() == pWavelengthInNanometers) {
-        return lLaser;
+
+  // -----------------------------------------------------------------
+  // Lasers
+
+  public Object getDevice(int pDeviceIndex, String ... pMustContainStrings) {
+    int lDeviceIndex = 0;
+    ArrayList<Object> lDeviceList = mLightSheetMicroscope.getDevices(Object.class);
+    for (Object lDevice : lDeviceList) {
+      String lName = lDevice.toString();
+      boolean lNameMatches = true;
+      for (String lMustContainString : pMustContainStrings) {
+        lNameMatches = lName.contains(lMustContainString);
+        if (!lNameMatches) {
+          break;
+        }
+      }
+      if (lNameMatches) {
+        if (lDeviceIndex == pDeviceIndex)
+        {
+          return lDevice;
+        } else {
+          lDeviceIndex++;
+        }
       }
     }
     return null;
   }
 
-  public ArrayList<Integer> getAvailableLaserWavelengthsInNanometers()
-  {
-    ArrayList<LaserDeviceInterface> lList = mLightSheetMicroscope.getDevices(LaserDeviceInterface.class);
-    ArrayList<Integer> lResultList = new ArrayList<>();
-    for (LaserDeviceInterface lLaser : lList)
-    {
-      lResultList.add(lLaser.getWavelengthInNanoMeter());
-    }
-    return lResultList;
+  public Object getDevice(String... pMustContainStrings) {
+    return getDevice(0, pMustContainStrings);
   }
 
   // -----------------------------------------------------------------
@@ -93,4 +99,10 @@ public abstract class EasyLightsheetMicroscope
   {
     return mLightSheetMicroscope;
   }
+
+  public ArrayList<Object> getDevices()
+  {
+    return mLightSheetMicroscope.getDevices(Object.class);
+  }
+
 }
