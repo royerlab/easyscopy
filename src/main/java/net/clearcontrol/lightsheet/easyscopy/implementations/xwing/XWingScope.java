@@ -10,7 +10,6 @@ import xwing.main.XWingMain;
  */
 public class XWingScope extends EasyLightsheetMicroscope
 {
-  public static boolean sSimulated = true;
   public static boolean sUseStages = false;
 
   private static XWingScope sInstance = null;
@@ -23,12 +22,8 @@ public class XWingScope extends EasyLightsheetMicroscope
 
   private XWingMicroscope mXWingMicroscope;
   private XWingScope() {
-    super(new XWingBuilder(sSimulated, sUseStages).getXWingMicroscope());
-    //super(new XWingMain(true).startXWing(sSimulated, null, false, false,
-    //                                                      sUseStages));
-
+    super(new XWingBuilder(false, sUseStages).getXWingMicroscope());
     mXWingMicroscope = (XWingMicroscope) getLightSheetMicroscope();
-
   }
 
   public static void cleanup() {
