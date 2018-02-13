@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * February 2018
  */
-public class XWingBuilder implements LoggingFeature
+class XWingBuilder implements LoggingFeature
 {
   static final MachineConfiguration
       sMachineConfiguration =
