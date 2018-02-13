@@ -1,7 +1,7 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.bscope;
 
 import net.clearcontrol.easyscopy.EasyScope;
-import net.clearcontrol.lightsheet.easyscopy.EasyLightsheetMicroscope;
+import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 import xwing.BScopeMicroscope;
 
 /**

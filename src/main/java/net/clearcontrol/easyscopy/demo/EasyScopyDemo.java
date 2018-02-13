@@ -6,8 +6,8 @@ import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
 import ij.IJ;
 import ij.ImageJ;
 import net.clearcontrol.easyscopy.EasyScopy;
-import net.clearcontrol.lightsheet.easyscopy.EasyLightsheetMicroscope;
 import net.clearcontrol.easyscopy.EasyScopyUtilities;
+import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.bscope.SimulatedBScope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.xwing.SimulatedXWingScope;
 import net.imglib2.RandomAccessibleInterval;
@@ -46,7 +46,7 @@ public class EasyScopyDemo
 
     // Turn on a laser
     LaserDeviceInterface lLaser = (LaserDeviceInterface) lScope.getDevice("Laser", "488");
-    lLaser.setTargetPowerInPercent(20);
+    lLaser.setTargetPowerInPercent(10);
     lLaser.setLaserOn(true);
     lLaser.setLaserPowerOn(true);
 
@@ -55,8 +55,8 @@ public class EasyScopyDemo
 
     // Take an image
     DirectImage lImage = (DirectImage)lScope.getDirectImage();
-    lImage.setImageWidth(2048);
-    lImage.setImageHeight(512);
+    lImage.setImageWidth(1024);
+    lImage.setImageHeight(2048);
     lImage.setIlluminationZ(25);
     lImage.setDetectionZ(25);
     lImage.setExposureTimeInSeconds(0.1);
@@ -72,8 +72,8 @@ public class EasyScopyDemo
 
     // take an imagestack
     DirectImageStack lImageStack = lScope.getDirectImageStack();
-    lImageStack.setImageWidth(2048);
-    lImageStack.setImageHeight(512);
+    lImageStack.setImageWidth(1024);
+    lImageStack.setImageHeight(2048);
     lImageStack.setIlluminationZ(25);
     lImageStack.setDetectionZ(25);
     lImageStack.setNumberOfRequestedImages(10);
