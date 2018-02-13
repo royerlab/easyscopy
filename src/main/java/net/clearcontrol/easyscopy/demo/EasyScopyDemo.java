@@ -1,4 +1,4 @@
-package net.clearcontrol.lightsheet.easyscopy.demo;
+package net.clearcontrol.easyscopy.demo;
 
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.imaging.DirectImage;
@@ -8,8 +8,8 @@ import ij.ImageJ;
 import net.clearcontrol.easyscopy.EasyScopy;
 import net.clearcontrol.lightsheet.easyscopy.EasyLightsheetMicroscope;
 import net.clearcontrol.easyscopy.EasyScopyUtilities;
-import net.clearcontrol.lightsheet.easyscopy.implementations.bscope.SimulatedBScope;
-import net.clearcontrol.lightsheet.easyscopy.implementations.xwing.SimulatedXWingScope;
+import net.clearcontrol.easyscopy.lightsheet.implementations.bscope.SimulatedBScope;
+import net.clearcontrol.easyscopy.lightsheet.implementations.xwing.SimulatedXWingScope;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 import net.imglib2.type.numeric.integer.UnsignedShortType;

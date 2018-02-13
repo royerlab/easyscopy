@@ -1,4 +1,4 @@
-package net.clearcontrol.lightsheet.easyscopy;
+package net.clearcontrol.easyscopy.lightsheet;
 
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;

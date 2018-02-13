@@ -2,7 +2,7 @@ from clearcontrol.devices.lasers import LaserDeviceInterface;
 from clearcontrol.microscope.lightsheet.imaging import DirectImage;
 from clearcontrol.microscope.lightsheet.imaging import DirectImageStack;
 from net.clearcontrol.lightsheet.easyscopy import EasyScopyUtilities;
-from net.clearcontrol.lightsheet.easyscopy.implementations.xwing import SimulatedXWingScope;
+from net.clearcontrol.easyscopy.lightsheet.implementations.xwing import SimulatedXWingScope;
 from net.imglib2 import RandomAccessibleInterval;
 from net.imglib2.img.display.imagej import ImageJFunctions;
 from net.imglib2.type.numeric.integer import UnsignedShortType;
