@@ -31,6 +31,15 @@ lScope.shutDownAllLasers();
 XWingScope.cleanup();
 ```
 
+To get a list of supported microscopes run this jython scipt from Fijis script editor:
+```
+from  net.clearcontrol.easyscopy import EasyScopy;
+from ij import IJ;
+
+IJ.log("Supported microscopes:");
+for lMicroscopeClass in EasyScopy.listEasyScopes():
+    IJ.log(" * " + str(lMicroscopeClass));
+```
 
 ## installation
 
