@@ -5,17 +5,16 @@ import clearcontrol.microscope.lightsheet.imaging.DirectImage;
 import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
 import ij.IJ;
 import ij.ImageJ;
+import net.clearcontrol.easyscopy.EasyScopy;
 import net.clearcontrol.lightsheet.easyscopy.EasyLightsheetMicroscope;
-import net.clearcontrol.lightsheet.easyscopy.EasyScopyUtilities;
+import net.clearcontrol.easyscopy.EasyScopyUtilities;
 import net.clearcontrol.lightsheet.easyscopy.implementations.bscope.SimulatedBScope;
 import net.clearcontrol.lightsheet.easyscopy.implementations.xwing.SimulatedXWingScope;
-import net.clearcontrol.lightsheet.easyscopy.implementations.xwing.XWingScope;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
 
 import java.util.ArrayList;
-import java.util.logging.SimpleFormatter;
 
 /**
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
@@ -28,14 +27,21 @@ public class EasyScopyDemo
   {
     new ImageJ();
 
+    IJ.log("Supported microscopes:");
+    for (Class lMicroscopeClass : EasyScopy.listEasyScopes())
+    {
+      IJ.log(" * " + lMicroscopeClass.toString());
+    }
+
     // The scope is an instance of EasyLightsheetMicroscope
-    //EasyLightsheetMicroscope lScope = SimulatedXWingScope.getInstance();
     EasyLightsheetMicroscope lScope = SimulatedBScope.getInstance();
+    //EasyLightsheetMicroscope lScope = SimulatedXWingScope.getInstance();
 
     ArrayList<Object> lDeviceList = lScope.getDevices();
+    IJ.log(lScope.toString() + " devices:");
     for (Object lDevice : lDeviceList)
     {
-      IJ.log(lDevice.toString());
+      IJ.log(" * " + lDevice.toString());
     }
 
     // Turn on a laser

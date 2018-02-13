@@ -1,4 +1,4 @@
-package net.clearcontrol.lightsheet.easyscopy;
+package net.clearcontrol.easyscopy;
 
 import clearcontrol.stack.OffHeapPlanarStack;
 import clearcontrol.stack.imglib2.StackToImgConverter;

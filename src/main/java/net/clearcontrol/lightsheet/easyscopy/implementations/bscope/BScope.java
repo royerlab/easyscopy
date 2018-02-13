@@ -1,6 +1,7 @@
 package net.clearcontrol.lightsheet.easyscopy.implementations.bscope;
 
 import net.clearcontrol.lightsheet.easyscopy.EasyLightsheetMicroscope;
+import net.clearcontrol.easyscopy.EasyScope;
 import xwing.BScopeMicroscope;
 
 import static com.esotericsoftware.minlog.Log.info;
@@ -9,6 +10,7 @@ import static com.esotericsoftware.minlog.Log.info;
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * February 2018
  */
+@EasyScope
 public class BScope extends EasyLightsheetMicroscope
 {
   public static boolean sUseStages = false;

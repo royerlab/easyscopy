@@ -1,6 +1,6 @@
 package net.clearcontrol.lightsheet.easyscopy.implementations.xwing;
 
-import clearcontrol.microscope.lightsheet.simulation.SimulatedLightSheetMicroscope;
+import net.clearcontrol.easyscopy.EasyScope;
 import net.clearcontrol.lightsheet.easyscopy.EasyLightsheetMicroscope;
 import xwing.XWingMicroscope;
 
@@ -8,8 +8,11 @@ import xwing.XWingMicroscope;
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * February 2018
  */
+
+@EasyScope
 public class SimulatedXWingScope extends EasyLightsheetMicroscope
 {
+
   public static boolean sUseStages = false;
 
   private static SimulatedXWingScope sInstance = null;

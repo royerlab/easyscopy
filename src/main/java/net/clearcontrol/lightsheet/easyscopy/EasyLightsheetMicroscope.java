@@ -4,6 +4,8 @@ import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
 import clearcontrol.microscope.lightsheet.imaging.DirectImage;
 import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
+import net.clearcontrol.easyscopy.EasyScope;
+import org.atteo.classindex.ClassIndex;
 
 import java.util.ArrayList;
 
