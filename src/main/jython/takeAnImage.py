@@ -2,20 +2,17 @@ from clearcontrol.devices.lasers import LaserDeviceInterface;
 from clearcontrol.microscope.lightsheet.imaging import DirectImage;
 from clearcontrol.microscope.lightsheet.imaging import DirectImageStack;
 from net.clearcontrol.lightsheet.easyscopy import EasyScopyUtilities;
-from net.clearcontrol.lightsheet.easyscopy.implementations.xwing import XWingScope;
+from net.clearcontrol.lightsheet.easyscopy.implementations.xwing import SimulatedXWingScope;
 from net.imglib2 import RandomAccessibleInterval;
 from net.imglib2.img.display.imagej import ImageJFunctions;
 from net.imglib2.type.numeric.integer import UnsignedShortType;
 
 
-# for real scope tests:
-XWingScope.sSimulated = False;
-
 # The XWingScope is an instance of EasyLightSheetMicroscope
-lScope = XWingScope.getInstance();
+lScope = SimulatedXWingScope.getInstance();
 
 # Turn on a laser
-lLaser = lScope.getLaserDevice(488);
+lLaser = lScope.getDevice("Laser", "488");
 lLaser.setTargetPowerInPercent(20);
 lLaser.setLaserOn(True);
 lLaser.setLaserPowerOn(True);
@@ -34,7 +31,7 @@ lImage.setDetectionZ(25);
 lImage.setExposureTimeInSeconds(1.0);
 
 # start acquisition
-img = EasyScopyUtilities.stackToImg(lImage.getImage());
+img = EasyScopyUtilities.stackToImg(lImage.acquire());
 
 # show the images
 ImageJFunctions.show(img);
@@ -53,7 +50,7 @@ lImageStack.setIlluminationZStepDistance(1);
 lImageStack.setExposureTimeInSeconds(1.0);
 
 # start acquisition
-imgStack = EasyScopyUtilities.stackToImg(lImageStack.getImage());
+imgStack = EasyScopyUtilities.stackToImg(lImageStack.acquire());
 
 # show the images
 ImageJFunctions.show(imgStack);
