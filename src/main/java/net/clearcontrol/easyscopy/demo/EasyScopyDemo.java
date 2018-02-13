@@ -59,7 +59,6 @@ public class EasyScopyDemo
     lImage.setImageHeight(2048);
     lImage.setIlluminationZ(25);
     lImage.setDetectionZ(25);
-    lImage.setExposureTimeInSeconds(0.1);
 //    lImage.setLightSheetIndex();
 
     // start acquisition
@@ -68,6 +67,7 @@ public class EasyScopyDemo
 
     // show the image
     ImageJFunctions.show(img);
+    IJ.run("Enhance Contrast", "saturated=0.35");
 
 
     // take an imagestack
@@ -76,9 +76,9 @@ public class EasyScopyDemo
     lImageStack.setImageHeight(2048);
     lImageStack.setIlluminationZ(25);
     lImageStack.setDetectionZ(25);
-    lImageStack.setNumberOfRequestedImages(10);
-    lImageStack.setDetectionZStepDistance(0);
-    lImageStack.setIlluminationZStepDistance(0.1);
+    lImageStack.setNumberOfRequestedImages(100);
+    lImageStack.setDetectionZStepDistance(1);
+    lImageStack.setIlluminationZStepDistance(1);
 
     // start acquisition
     RandomAccessibleInterval<UnsignedShortType>
@@ -86,6 +86,7 @@ public class EasyScopyDemo
 
     // show the images
     ImageJFunctions.show(imgStack);
+    IJ.run("Enhance Contrast", "saturated=0.35");
 
 
     // That's always a godd idea by the end!
