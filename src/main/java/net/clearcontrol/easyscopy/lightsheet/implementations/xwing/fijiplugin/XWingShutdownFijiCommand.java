@@ -9,7 +9,7 @@ import org.scijava.plugin.Plugin;
  * February 2018
  */
 
-@Plugin(type = Command.class, menuPath = "XWing>Microscope>Shutdown")
+@Plugin(type = Command.class, menuPath = "XWing>Microscope>Shutdown XWing")
 public class XWingShutdownFijiCommand implements Command
 {
 
