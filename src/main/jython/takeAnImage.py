@@ -6,6 +6,7 @@ from net.clearcontrol.easyscopy.lightsheet.implementations.xwing import Simulate
 from net.imglib2 import RandomAccessibleInterval;
 from net.imglib2.img.display.imagej import ImageJFunctions;
 from net.imglib2.type.numeric.integer import UnsignedShortType;
+from ij import IJ;
 
 
 # The XWingScope is an instance of EasyLightSheetMicroscope
