@@ -13,7 +13,7 @@ import xwing.XWingMicroscope;
 public class XWingScope extends EasyLightsheetMicroscope
 {
 
-  public static boolean sUseStages = false;
+  public static boolean sUseStages = true;
 
   private static XWingScope sInstance = null;
   public static XWingScope getInstance() {
