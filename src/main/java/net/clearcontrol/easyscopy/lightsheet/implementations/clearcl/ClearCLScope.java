@@ -41,7 +41,7 @@ public class ClearCLScope extends EasyMicroscope
   }
 
   private ClearCLScope() {
-    super(null, null);
+    super(null);
 
     ClearCLBackendInterface
         lClearCLBackend =
