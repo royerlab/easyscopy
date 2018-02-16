@@ -101,6 +101,16 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
+			<artifactId>fastfuse</artifactId>
+			<version>0.6.1-RH</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.7</version>
+		</dependency>
+		<dependency>
+			<groupId>net.clearcontrol</groupId>
 			<artifactId>XWing</artifactId>
 			<version>1.0.10</version>
 		</dependency>
