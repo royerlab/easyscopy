@@ -1,21 +1,20 @@
-package net.clearcontrol.easyscopy.lightsheet.implementations.clearcl;
+package clearcl.imagej;
 
 import clearcl.*;
 import clearcl.backend.ClearCLBackendInterface;
 import clearcl.backend.javacl.ClearCLBackendJavaCL;
 import clearcl.enums.ImageChannelDataType;
-import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionProcessor;
+import clearcl.imagej.utilities.GenericBinaryFastFuseTask;
+import clearcl.imagej.utilities.MiniFastFusionEngine;
 import clearcontrol.stack.OffHeapPlanarStack;
 import coremem.enums.NativeTypeEnum;
+import fastfuse.FastFusionEngine;
 import fastfuse.FastFusionMemoryPool;
 import net.clearcontrol.easyscopy.EasyMicroscope;
 import net.clearcontrol.easyscopy.EasyScope;
-import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
-import net.clearcontrol.easyscopy.lightsheet.implementations.clearcl.utilities.GenericUnaryFastFuseTask;
-import xwing.XWingMicroscope;
+
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,24 +22,24 @@ import java.util.Map;
  * February 2018
  */
 @EasyScope
-public class ClearCLScope extends EasyMicroscope
+public class ClearCLIJ extends EasyMicroscope
 {
 
   protected ClearCLContext mClearCLContext;
   private final ClearCLDevice mClearCLDevice;
   private ClearCL mClearCL;
-  private static ClearCLScope sInstance = null;
+  private static ClearCLIJ sInstance = null;
 
-  private MiniFastFusionEngine mMiniFastFusionEngine;
+  private FastFusionEngine mFastFusionEngine;
 
-  public static ClearCLScope getInstance() {
+  public static ClearCLIJ getInstance() {
     if (sInstance == null) {
-      sInstance = new ClearCLScope();
+      sInstance = new ClearCLIJ();
     }
     return sInstance;
   }
 
-  private ClearCLScope() {
+  private ClearCLIJ() {
     super(null);
 
     ClearCLBackendInterface
@@ -51,7 +50,7 @@ public class ClearCLScope extends EasyMicroscope
     mClearCLDevice = mClearCL.getFastestGPUDeviceForImages();
     mClearCLContext = mClearCLDevice.createContext();
 
-    mMiniFastFusionEngine = new MiniFastFusionEngine(mClearCLContext);
+    mFastFusionEngine = new FastFusionEngine(mClearCLContext);
 
     FastFusionMemoryPool.getInstance(mClearCLContext);
   }
@@ -62,8 +61,8 @@ public class ClearCLScope extends EasyMicroscope
     String lGenericSrcImageName = "tempA" + System.currentTimeMillis();
     String lGenericDstImageName = "tempB" + System.currentTimeMillis();
 
-    GenericUnaryFastFuseTask lGenericUnaryFastFuseTask = new GenericUnaryFastFuseTask(
-        mMiniFastFusionEngine,
+    GenericBinaryFastFuseTask lGenericUnaryFastFuseTask = new GenericBinaryFastFuseTask(
+        mFastFusionEngine,
         pAnchorClass,
         pProgramFilename,
         pKernelname,
@@ -74,16 +73,16 @@ public class ClearCLScope extends EasyMicroscope
     );
     lGenericUnaryFastFuseTask.setParameterMap(pParameterMap);
 
-    mMiniFastFusionEngine.addTask(lGenericUnaryFastFuseTask);
+    mFastFusionEngine.addTask(lGenericUnaryFastFuseTask);
 
     ImageChannelDataType lType = determineType(pInputImageStack.getDataType());
 
-    mMiniFastFusionEngine.passImage(lGenericSrcImageName, pInputImageStack.getContiguousMemory(), lType, pInputImageStack.getDimensions());
+    mFastFusionEngine.passImage(lGenericSrcImageName, pInputImageStack.getContiguousMemory(), lType, pInputImageStack.getDimensions());
 
-    mMiniFastFusionEngine.executeAllTasks();
+    mFastFusionEngine.executeAllTasks();
 
-    if (mMiniFastFusionEngine.isImageAvailable(lGenericDstImageName)) {
-      return convertToOffHeapPlanarStack(mMiniFastFusionEngine.getImage(lGenericDstImageName));
+    if (mFastFusionEngine.isImageAvailable(lGenericDstImageName)) {
+      return convertToOffHeapPlanarStack(mFastFusionEngine.getImage(lGenericDstImageName));
     } else {
       return null;
     }
@@ -126,7 +125,7 @@ public class ClearCLScope extends EasyMicroscope
 
 
   private ClearCLProgram initializeProgram(Class pAnchorClass,
-                                                     String pProgramFilename) throws
+                                           String pProgramFilename) throws
                                                           IOException
   {
     return mClearCLContext.createProgram(pAnchorClass, pProgramFilename);

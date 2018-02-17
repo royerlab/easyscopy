@@ -1,4 +1,4 @@
-package net.clearcontrol.easyscopy.lightsheet.implementations.clearcl.utilities;
+package clearcl.imagej.demo;
 
 import clearcl.ClearCLBuffer;
 import clearcl.ClearCLContext;

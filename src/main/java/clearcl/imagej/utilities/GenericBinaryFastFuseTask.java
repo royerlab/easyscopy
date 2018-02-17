@@ -1,6 +1,5 @@
-package net.clearcontrol.easyscopy.lightsheet.implementations.clearcl.utilities;
+package clearcl.imagej.utilities;
 
-import clearcl.ClearCL;
 import clearcl.ClearCLContext;
 import clearcl.ClearCLImage;
 import clearcl.ClearCLKernel;
@@ -12,14 +11,13 @@ import fastfuse.tasks.TaskHelper;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * February 2018
  */
-public class GenericUnaryFastFuseTask extends TaskBase
+public class GenericBinaryFastFuseTask extends TaskBase
 {
   ClearCLContext mContext;
 
@@ -33,14 +31,14 @@ public class GenericUnaryFastFuseTask extends TaskBase
 
 
 
-  public GenericUnaryFastFuseTask(FastFusionEngine pFastFusionEngine,
-                                  Class pAnchorClass,
-                                  String pProgramFilename,
-                                  String pKernelName,
-                                  String pKernelInputImageParameterName,
-                                  String pKernelOutputImageParameterName,
-                                  String pSrcImageSlotKey,
-                                  String pDstImageSlotKey) throws
+  public GenericBinaryFastFuseTask(FastFusionEngine pFastFusionEngine,
+                                   Class pAnchorClass,
+                                   String pProgramFilename,
+                                   String pKernelName,
+                                   String pKernelInputImageParameterName,
+                                   String pKernelOutputImageParameterName,
+                                   String pSrcImageSlotKey,
+                                   String pDstImageSlotKey) throws
                                                            IOException
   {
     super(pSrcImageSlotKey);
