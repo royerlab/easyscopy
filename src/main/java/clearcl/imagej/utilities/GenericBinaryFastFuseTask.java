@@ -22,10 +22,6 @@ public class GenericBinaryFastFuseTask extends TaskBase
   ClearCLContext mContext;
 
   String mKernelName;
-  String mSrcImageSlotKey;
-  String mDstImageSlotKey;
-  String mKernelInputImageParameterName;
-  String mKernelOutputImageParameterName;
   Map<String, Object> mParameterMap;
 
 
@@ -34,20 +30,11 @@ public class GenericBinaryFastFuseTask extends TaskBase
   public GenericBinaryFastFuseTask(FastFusionEngine pFastFusionEngine,
                                    Class pAnchorClass,
                                    String pProgramFilename,
-                                   String pKernelName,
-                                   String pKernelInputImageParameterName,
-                                   String pKernelOutputImageParameterName,
-                                   String pSrcImageSlotKey,
-                                   String pDstImageSlotKey) throws
+                                   String pKernelName) throws
                                                            IOException
   {
-    super(pSrcImageSlotKey);
+    super();
     setupProgram(pAnchorClass, pProgramFilename);
-    mSrcImageSlotKey = pSrcImageSlotKey;
-    mDstImageSlotKey = pDstImageSlotKey;
-    mKernelInputImageParameterName = pKernelInputImageParameterName;
-    mKernelOutputImageParameterName = pKernelOutputImageParameterName;
-
     mKernelName = pKernelName;
     mContext = pFastFusionEngine.getContext();
   }
@@ -62,65 +49,62 @@ public class GenericBinaryFastFuseTask extends TaskBase
   {
     System.out.println("available images are");
 
-    for (String Key : pFastFusionEngine.getAvailableImagesSlotKeys())
-    {
-      System.out.println(Key);
+    ClearCLImage lSrcImage = null;
+    ClearCLImage lDstImage = null;
+
+    if (mParameterMap != null) {
+      for (String key : mParameterMap.keySet()) {
+        if (key == "src") {
+          lSrcImage = (ClearCLImage) mParameterMap.get(key);
+        } else if (key == "dst") {
+          lDstImage = (ClearCLImage) mParameterMap.get(key);
+        }
+      }
     }
 
-    if (pFastFusionEngine.isImageAvailable(mSrcImageSlotKey))
-    {
-      System.out.println(mSrcImageSlotKey
-                         + " is being cached and processed");
-
-      ClearCLImage
-          lSrcImage =
-          pFastFusionEngine.getImage(mSrcImageSlotKey);
-
-      MutablePair<Boolean, ClearCLImage> lFlagAndDstImage =
-          pFastFusionEngine.ensureImageAllocated(mDstImageSlotKey,
-                                                 lSrcImage.getChannelDataType(),
-                                                 lSrcImage.getDimensions());
-      ClearCLImage lDstImage = lFlagAndDstImage.getRight();
+    ClearCLKernel lClearCLKernel = null;
+    if (lSrcImage != null && lDstImage != null) {
 
       try
       {
-        ClearCLKernel lClearCLKernel =
+        lClearCLKernel =
             getKernel(mContext, mKernelName,
                       TaskHelper.getOpenCLDefines(lSrcImage,
                                                   lDstImage));
-
-
-        lClearCLKernel.setGlobalSizes(lDstImage.getDimensions());
-        //lKernel.setArguments(lDstImage, lSrcImage);
-
-        lClearCLKernel.setArgument(mKernelInputImageParameterName, lSrcImage);
-        lClearCLKernel.setArgument(mKernelOutputImageParameterName, lDstImage);
-        if (mParameterMap != null) {
-          for (String key : mParameterMap.keySet()) {
-            lClearCLKernel.setArgument(key, mParameterMap.get(key));
-          }
-        }
-        runKernel(lClearCLKernel, pWaitToFinish);
-        lFlagAndDstImage.setLeft(true);
-
-
-        System.out.println("available images are now ");
-
-        for (String Key : pFastFusionEngine.getAvailableImagesSlotKeys())
-        {
-          System.out.println(Key);
-        }
-
       }
-      catch (IOException e)
+      catch (IOException e1)
       {
-        e.printStackTrace();
+        e1.printStackTrace();
+        return false;
+      }
+
+    } else
+    {
+      try
+      {
+        lClearCLKernel =
+        getKernel(mContext,
+                  mKernelName);
+      }
+      catch (IOException e1)
+      {
+        e1.printStackTrace();
         return false;
       }
     }
-    else
+
+    if (lClearCLKernel != null)
     {
-      System.out.println(mSrcImageSlotKey + " was not available");
+      lClearCLKernel.setGlobalSizes(lDstImage.getDimensions());
+
+      if (mParameterMap != null)
+      {
+        for (String key : mParameterMap.keySet())
+        {
+          lClearCLKernel.setArgument(key, mParameterMap.get(key));
+        }
+      }
+      runKernel(lClearCLKernel, pWaitToFinish);
     }
 
     return true;

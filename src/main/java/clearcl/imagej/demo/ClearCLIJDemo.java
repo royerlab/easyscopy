@@ -1,19 +1,19 @@
 package clearcl.imagej.demo;
 
-import clearcontrol.stack.OffHeapPlanarStack;
-import clearcontrol.stack.imglib2.ImgToStackConverter;
-import clearcontrol.stack.imglib2.StackToImgConverter;
+import clearcl.ClearCLImage;
+import clearcl.imagej.ClearCLIJ;
 import fastfuse.tasks.DownsampleXYbyHalfTask;
 import ij.IJ;
 import ij.ImageJ;
 import ij.ImagePlus;
-import clearcl.imagej.ClearCLIJ;
+import ij.plugin.Duplicator;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
-import net.imglib2.view.Views;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
@@ -32,26 +32,35 @@ public class ClearCLIJDemo
         lInputImg =
         ImageJFunctions.wrap(lInputImagePlus);
 
+    RandomAccessibleInterval<UnsignedShortType>
+        lOutputImg =
+        ImageJFunctions.wrap(new Duplicator().run(lInputImagePlus));
+
     ImageJFunctions.show(lInputImg);
 
-    ClearCLIJ lScope = ClearCLIJ.getInstance();
+    ClearCLIJ lCLIJ = ClearCLIJ.getInstance();
 
     //Img<UnsignedShortType> lImg = ArrayImgs.unsignedShorts(new long[]{128, 256, 16});
 
-    OffHeapPlanarStack
-        lStack =
-        new ImgToStackConverter<UnsignedShortType>(Views.iterable(
-            lInputImg)).getOffHeapPlanarStack();
+    /*OffHeapPlanarStack
+        lStack = lCLIJ.converter(Views.iterable(
+            lInputImg)).getOffHeapPlanarStack();*/
 
-    OffHeapPlanarStack
-        lResultStack =
-        lScope.executeUnaryFunction(DownsampleXYbyHalfTask.class,
-                                    "kernels/downsampling.cl",
-                                    "downsample_xy_by_half_nearest",
-                                    "src",
-                                    "dst",
-                                    lStack,
-                                    null);
+    ClearCLImage
+        lSrcImage =
+        lCLIJ.converter(lInputImg).getClearCLImage();
+    ClearCLImage
+        lDstImage =
+        lCLIJ.converter(lOutputImg).getClearCLImage();
+
+    Map<String, Object> lParameterMap = new HashMap<>();
+    lParameterMap.put("src", lSrcImage);
+    lParameterMap.put("dst", lDstImage);
+
+    lCLIJ.execute(DownsampleXYbyHalfTask.class,
+                  "kernels/downsampling.cl",
+                  "downsample_xy_by_half_nearest",
+                  lParameterMap);
 
     /*
     HashMap<String, Object> lParameterMap = new HashMap<>();
@@ -73,9 +82,9 @@ public class ClearCLIJDemo
                                     lParameterMap);
 */
 
-    RandomAccessibleInterval<UnsignedShortType>
+    RandomAccessibleInterval
         lResultImg =
-        new StackToImgConverter<UnsignedShortType>(lResultStack).getRandomAccessibleInterval();
+        lCLIJ.converter(lDstImage).getRandomAccessibleInterval();
 
     ImageJFunctions.show(lResultImg);
 
