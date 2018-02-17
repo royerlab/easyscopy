@@ -1,5 +1,6 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.xwing.fijiplugin;
 
+import clearcl.imagej.ClearCLIJ;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
 import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
@@ -7,7 +8,6 @@ import clearcontrol.stack.OffHeapPlanarStack;
 import ij.IJ;
 import ij.ImageJ;
 import ij.gui.GenericDialog;
-import net.clearcontrol.easyscopy.EasyScopyUtilities;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.xwing.SimulatedXWingScope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.xwing.XWingScope;
@@ -111,10 +111,9 @@ public class XWingTakeImageStackCommand implements Command
 
       OffHeapPlanarStack lStack = lDirectImageStack.acquire();
 
-      // start acquisition
+      // coonvert and show
       RandomAccessibleInterval<UnsignedShortType>
-          img =
-          EasyScopyUtilities.stackToImg(lStack);
+          img = ClearCLIJ.getInstance().converter(lStack).getRandomAccessibleInterval();
 
       ImageJFunctions.wrap(img, "Acquired image stack " + sImageCount).show();
       IJ.run("Enhance Contrast", "saturated=0.35");

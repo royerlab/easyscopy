@@ -100,6 +100,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>net.clearvolume</groupId>
+			<artifactId>clearclij</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>fastfuse</artifactId>
 			<version>0.6.1-RH</version>
