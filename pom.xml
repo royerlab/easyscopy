@@ -100,7 +100,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>net.clearvolume</groupId>
+			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearclij</artifactId>
 			<version>0.1.0</version>
 		</dependency>
