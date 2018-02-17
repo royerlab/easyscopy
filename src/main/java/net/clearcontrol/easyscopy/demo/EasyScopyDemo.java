@@ -10,6 +10,7 @@ import fastfuse.tasks.GaussianBlurTask;
 import ij.IJ;
 import ij.ImageJ;
 import net.clearcontrol.easyscopy.EasyScopy;
+import net.clearcontrol.easyscopy.EasyScopyUtilities;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.bscope.SimulatedBScope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.xwing.SimulatedXWingScope;
@@ -74,7 +75,7 @@ public class EasyScopyDemo
 
     // start acquisition
     RandomAccessibleInterval<UnsignedShortType>
-        img = lCLIJ.converter(lImage.acquire()).getRandomAccessibleInterval();
+        img = EasyScopyUtilities.stackToImg(lImage.acquire());
 
     // show the image
     ImageJFunctions.show(img);
