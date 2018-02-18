@@ -46,8 +46,8 @@ public class EasyScopyDemo
     ClearCLIJ lCLIJ = ClearCLIJ.getInstance();
 
     // The scope is an instance of EasyLightsheetMicroscope
-    EasyLightsheetMicroscope lScope = SimulatedBScope.getInstance();
-    //EasyLightsheetMicroscope lScope = SimulatedXWingScope.getInstance();
+    //EasyLightsheetMicroscope lScope = SimulatedBScope.getInstance();
+    EasyLightsheetMicroscope lScope = SimulatedXWingScope.getInstance();
 
     ArrayList<Object> lDeviceList = lScope.getDevices();
     IJ.log(lScope.toString() + " devices:");
