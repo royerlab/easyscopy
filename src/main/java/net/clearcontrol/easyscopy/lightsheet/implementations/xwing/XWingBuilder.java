@@ -105,6 +105,8 @@ class XWingBuilder implements LoggingFeature
       info("Starting microscope devices...");
       if (mXWingMicroscope.start())
       {
+        mXWingMicroscope.useRecycler("adaptation", 1, 4, 4);
+
         /*if (pPrimaryStage != null)
         {
           XWingGui lXWingGui;

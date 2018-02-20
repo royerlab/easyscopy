@@ -101,6 +101,8 @@ class BScopeBuilder implements LoggingFeature
         info("Starting microscope devices...");
         if (mBScopeMicroscope.start())
         {
+          mBScopeMicroscope.useRecycler("adaptation", 1, 4, 4);
+
 /*
           info("Setting up BScope GUI...");
           BScopeGui lBScopeGui = new BScopeGui(lBScopeMicroscope,
