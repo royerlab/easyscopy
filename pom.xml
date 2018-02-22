@@ -14,7 +14,7 @@
 
 	<groupId>net.clearcontrol</groupId>
 	<artifactId>easyscopy</artifactId>
-	<version>0.1.3</version>
+	<version>0.1.4</version>
 
 	<name>EasyScopy</name>
 	<description>EasyScopy</description>
@@ -101,7 +101,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
+			<artifactId>simbryo</artifactId>
+			<version>0.8.2-RH</version>
+		</dependency>
+		<dependency>
+			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearclij</artifactId>
+			<version>0.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.mpicbg.rhaase</groupId>
+			<artifactId>imagequalitymetrics-microscopeautopilot</artifactId>
 			<version>0.1.1</version>
 		</dependency>
 		<dependency>
