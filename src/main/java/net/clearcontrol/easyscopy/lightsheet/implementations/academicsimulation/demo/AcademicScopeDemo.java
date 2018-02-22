@@ -6,6 +6,7 @@ import clearcontrol.stack.OffHeapPlanarStack;
 import ij.IJ;
 import ij.ImageJ;
 import net.clearcontrol.easyscopy.EasyScopyUtilities;
+import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.academicsimulation.AcademicScope;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.display.imagej.ImageJFunctions;
@@ -24,26 +25,35 @@ public class AcademicScopeDemo
   public static void main(String... args) {
     new ImageJ();
 
-    AcademicScope
-        lAcademicScope = AcademicScope.getInstance();
+    EasyLightsheetMicroscope lScope;
 
-    lAcademicScope.addLaser(488);
-    lAcademicScope.addLaser(592);
+    // setup a scope by adding devices
+    {
+      AcademicScope lAcademicScope = new AcademicScope();
 
-    lAcademicScope.addCamera(2048, 2048);
-    lAcademicScope.addLightSheet();
-    lAcademicScope.addLightSheet();
-    lAcademicScope.addLightSheet();
-    lAcademicScope.addScalingAmplifier();
-    lAcademicScope.addOpticalSwitch();
-    lAcademicScope.addSignalGenerator();
-    lAcademicScope.mountDrosophilaSample(11);
+      lAcademicScope.addLaser(488);
+      lAcademicScope.addLaser(592);
 
-    lAcademicScope.turnOn();
+      lAcademicScope.addCamera(2048, 2048);
 
+      lAcademicScope.addLightSheet();
+      lAcademicScope.addLightSheet();
+      lAcademicScope.addLightSheet();
+
+      lAcademicScope.addOpticalSwitch();
+      lAcademicScope.addSignalGenerator();
+
+      // mount a sample and
+      lAcademicScope.mountDrosophilaSample(11);
+
+      lAcademicScope.turnOn();
+
+      // From here, lScope is just a normal EasyLightSheetMicroscope
+      lScope = lAcademicScope;
+    }
 
     System.out.println("The academic scope consists of these devices:");
-    for (Object lDevice : lAcademicScope.getDevices())
+    for (Object lDevice : lScope.getDevices())
     {
       System.out.println(" * " + lDevice.toString());
     }
@@ -51,7 +61,7 @@ public class AcademicScopeDemo
 
     // Turn on a laser
     LaserDeviceInterface
-        lLaser = (LaserDeviceInterface) lAcademicScope.getDevice("Laser", "488");
+        lLaser = (LaserDeviceInterface) lScope.getDevice("Laser", "488");
     lLaser.setTargetPowerInPercent(10);
     lLaser.setLaserOn(true);
     lLaser.setLaserPowerOn(true);
@@ -59,7 +69,7 @@ public class AcademicScopeDemo
 
     //lScope.getLightSheetMicroscope().getLightSheet(0).getHeightVariable().set(0);
 
-    for (int l = 0; l < lAcademicScope.getLightSheetMicroscope().getNumberOfLightSheets(); l++)
+    for (int l = 0; l < lScope.getLightSheetMicroscope().getNumberOfLightSheets(); l++)
     {
       lLaser.setTargetPowerInPercent(10);
       lLaser.setLaserOn(true);
@@ -69,7 +79,7 @@ public class AcademicScopeDemo
       lLaser.setLaserPowerOn(true);
 
       // Take an image
-      DirectImage lImage = (DirectImage) lAcademicScope.getDirectImage();
+      DirectImage lImage = (DirectImage) lScope.getDirectImage();
       lImage.setImageWidth(1024);
       lImage.setImageHeight(2048);
       lImage.setIlluminationZ(25);

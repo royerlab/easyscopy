@@ -1,5 +1,8 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.academicsimulation;
 
+import clearcl.ClearCLContext;
+import clearcl.ClearCLImage;
+import clearcl.enums.ImageChannelDataType;
 import clearcontrol.core.configuration.MachineConfiguration;
 import clearcontrol.core.log.LoggingFeature;
 import clearcontrol.core.variable.Variable;
@@ -18,6 +21,12 @@ import clearcontrol.microscope.lightsheet.simulation.LightSheetSimulationStackPr
 import clearcontrol.microscope.lightsheet.simulation.SimulationUtils;
 import net.clearcontrol.easyscopy.EasyScope;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
+import simbryo.synthoscopy.microscope.aberration.IlluminationMisalignment;
+import simbryo.synthoscopy.microscope.lightsheet.LightSheetMicroscopeSimulatorOrtho;
+import simbryo.synthoscopy.microscope.lightsheet.drosophila.LightSheetMicroscopeSimulatorDrosophila;
+import simbryo.synthoscopy.microscope.parameters.PhantomParameter;
+import simbryo.synthoscopy.microscope.parameters.UnitConversion;
+import simbryo.textures.noise.UniformNoise;
 
 /**
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
@@ -33,33 +42,18 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
       sMachineConfiguration =
       MachineConfiguration.get();
 
-
   Variable<Boolean> mCameraTrigger =
       new Variable<Boolean>("CameraTrigger",
                             false);
 
 
-  AcademicLightScheetMicroscope mAcademicLightScheetMicroscope;
+  AcademicLightScheetMicroscope mAcademicLightSheetMicroscope;
 
-  private static AcademicScope sInstance = null;
-  public static AcademicScope getInstance() {
-    if (sInstance == null) {
-      sInstance = new AcademicScope();
-    }
-    return sInstance;
-  }
-
-  private AcademicScope() {
+  public AcademicScope() {
     super(new AcademicScopeBuilder().getLightSheetMicroscope());
-    mAcademicLightScheetMicroscope = (AcademicLightScheetMicroscope)getLightSheetMicroscope();
+    mAcademicLightSheetMicroscope = (AcademicLightScheetMicroscope)getLightSheetMicroscope();
   }
 
-  public static void cleanup() {
-    if (sInstance != null) {
-      sInstance.terminate();
-      sInstance = null;
-    }
-  }
 
   public void addLaser(int lWaveLengthInNanometers ) {
 
@@ -81,15 +75,15 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
 
     LightSheetMicroscopeSimulationDevice
         lSimulatorDevice =
-        SimulationUtils
-            .getSimulatorDevice(mAcademicLightScheetMicroscope.getSimulationContext(),
-                                mAcademicLightScheetMicroscope.getNumberOfDetectionArms(),
-                                mAcademicLightScheetMicroscope.getNumberOfLightSheets(),
+        getSimulatorDevice(mAcademicLightSheetMicroscope.getSimulationContext(),
+                           getDrosophilaFromVirtualFlyLab(mAcademicLightSheetMicroscope.getSimulationContext(),
+                                mAcademicLightSheetMicroscope.getNumberOfDetectionArms(),
+                                mAcademicLightSheetMicroscope.getNumberOfLightSheets(),
                                 2048,
                                 pDivisionTime,
                                 320,
                                 320,
-                                320,
+                                320),
                                 false);
 
     getLightSheetMicroscope().addDevice(0, lSimulatorDevice);
@@ -105,6 +99,106 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
       lCameraDevice.setStackCameraSimulationProvider(lStackProvider);
       count++;
     }
+  }
+
+  private LightSheetMicroscopeSimulatorOrtho getDrosophilaFromVirtualFlyLab(ClearCLContext pSimulationContext,
+                                                                            int pNumberOfDetectionArms,
+                                                                            int pNumberOfLightSheets,
+                                                                            int pMaxCameraResolution,
+                                                                            float pDivisionTime,
+                                                                            int pPhantomWidth,
+                                                                            int pPhantomHeight,
+                                                                            int pPhantomDepth) {
+
+    LightSheetMicroscopeSimulatorDrosophila lSimulator = new LightSheetMicroscopeSimulatorDrosophila(pSimulationContext,
+                                                pNumberOfDetectionArms,
+                                                pNumberOfLightSheets,
+                                                pMaxCameraResolution,
+                                                pDivisionTime,
+                                                pPhantomWidth,
+                                                pPhantomHeight,
+                                                pPhantomDepth);
+
+
+    // lSimulator.openViewerForControls();
+    lSimulator.setFreezedEmbryo(true);
+    lSimulator.setNumberParameter(UnitConversion.Length, 0, 700f);
+
+    // lSimulator.addAbberation(new Miscalibration());
+    // lSimulator.addAbberation(new SampleDrift());
+    lSimulator.addAbberation(IlluminationMisalignment.buildXYZ(0,
+                                                               0,
+                                                               0));
+
+    return lSimulator;
+  }
+
+  private LightSheetMicroscopeSimulationDevice getSimulatorDevice( ClearCLContext pSimulationContext,
+                                                                   LightSheetMicroscopeSimulatorOrtho pSimulator,
+
+                     boolean pUniformFluorescence)
+  {
+
+
+    // lSimulator.addAbberation(new DetectionMisalignment());
+
+    /*scheduleAtFixedRate(() -> lSimulator.simulationSteps(1),
+    10,
+    TimeUnit.MILLISECONDS);/**/
+
+    if (pUniformFluorescence)
+    {
+      long lEffPhantomWidth = pSimulator.getWidth();
+      long lEffPhantomHeight = pSimulator.getHeight();
+      long lEffPhantomDepth = pSimulator.getDepth();
+
+      ClearCLImage lFluoPhantomImage =
+          pSimulationContext.createSingleChannelImage(
+              ImageChannelDataType.Float,
+              lEffPhantomWidth,
+              lEffPhantomHeight,
+              lEffPhantomDepth);
+
+      ClearCLImage lScatterPhantomImage =
+          pSimulationContext.createSingleChannelImage(ImageChannelDataType.Float,
+                                                      lEffPhantomWidth / 2,
+                                                      lEffPhantomHeight / 2,
+                                                      lEffPhantomDepth / 2);
+
+      UniformNoise lUniformNoise = new UniformNoise(3);
+      lUniformNoise.setNormalizeTexture(false);
+      lUniformNoise.setMin(0.25f);
+      lUniformNoise.setMax(0.75f);
+      lFluoPhantomImage.readFrom(lUniformNoise.generateTexture(lEffPhantomWidth,
+                                                               lEffPhantomHeight,
+                                                               lEffPhantomDepth),
+                                 true);
+
+      lUniformNoise.setMin(0.0001f);
+      lUniformNoise.setMax(0.001f);
+      lScatterPhantomImage.readFrom(lUniformNoise.generateTexture(lEffPhantomWidth
+                                                                  / 2,
+                                                                  lEffPhantomHeight
+                                                                  / 2,
+                                                                  lEffPhantomDepth
+                                                                  / 2),
+                                    true);
+
+      pSimulator.setPhantomParameter(PhantomParameter.Fluorescence,
+                                     lFluoPhantomImage);
+
+      pSimulator.setPhantomParameter(PhantomParameter.Scattering,
+                                     lScatterPhantomImage);
+    }
+
+    // lSimulator.openViewerForCameraImage(0);
+    // lSimulator.openViewerForAllLightMaps();
+    // lSimulator.openViewerForScatteringPhantom();
+
+    LightSheetMicroscopeSimulationDevice lLightSheetMicroscopeSimulatorDevice =
+        new LightSheetMicroscopeSimulationDevice(pSimulator);
+
+    return lLightSheetMicroscopeSimulatorDevice;
   }
 
   private int mMaxCameraResolution = 256;
@@ -175,13 +269,6 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
                                     getLightSheetMicroscope().getNumberOfLightSheets());
 
     getLightSheetMicroscope().addDevice(0, lLightSheetOpticalSwitch);
-  }
-
-  public void addScalingAmplifier() {
-
-    ScalingAmplifierDeviceInterface lScalingAmplifier1 =
-        new ScalingAmplifierSimulator("ScalingAmplifier" + getLightSheetMicroscope().getDevices(ScalingAmplifierSimulator.class).size());
-    getLightSheetMicroscope().addDevice(0, lScalingAmplifier1);
   }
 
   public void addSignalGenerator() {
