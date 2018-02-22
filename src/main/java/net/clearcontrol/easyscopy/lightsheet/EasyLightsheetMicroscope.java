@@ -3,6 +3,7 @@ package net.clearcontrol.easyscopy.lightsheet;
 import clearcl.ClearCLContext;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
+import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
 import clearcontrol.microscope.lightsheet.imaging.DirectImage;
 import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionEngine;
@@ -56,6 +57,11 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   public LightSheetMicroscope getLightSheetMicroscope()
   {
     return mLightSheetMicroscope;
+  }
+
+
+  public LightSheetInterface getLightSheetDevice(String ... pMustContainStrings) {
+    return getDevice(LightSheetInterface.class, 0, pMustContainStrings);
   }
 
 

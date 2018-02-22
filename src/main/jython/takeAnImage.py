@@ -13,7 +13,7 @@ from ij import IJ;
 lScope = SimulatedXWingScope.getInstance();
 
 # Turn on a laser
-lLaser = lScope.getDevice("Laser", "488");
+lLaser = lScope.getLaserDevice("488");
 lLaser.setTargetPowerInPercent(10);
 lLaser.setLaserOn(True);
 lLaser.setLaserPowerOn(True);

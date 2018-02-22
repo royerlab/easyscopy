@@ -1,8 +1,14 @@
 package net.clearcontrol.easyscopy;
 
 import clearcl.ClearCLContext;
+import clearcontrol.devices.cameras.CameraDeviceInterface;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
+import clearcontrol.devices.optomech.filterwheels.FilterWheelDeviceInterface;
+import clearcontrol.devices.stages.BasicStageInterface;
 import clearcontrol.microscope.MicroscopeInterface;
+import clearcontrol.microscope.lightsheet.component.detection.DetectionArmInterface;
+import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
+import clearcontrol.microscope.lightsheet.spatialphasemodulation.slms.SpatialPhaseModulatorDeviceInterface;
 
 import java.util.ArrayList;
 
@@ -42,11 +48,46 @@ public abstract class EasyMicroscope
   // -----------------------------------------------------------------
   // Devices
 
-  public Object getDevice(int pDeviceIndex, String ... pMustContainStrings) {
+  public LaserDeviceInterface getLaserDevice(String ... pMustContainStrings) {
+    return getDevice(LaserDeviceInterface.class, 0, pMustContainStrings);
+  }
+
+  public CameraDeviceInterface getCameraDevice(String ... pMustContainStrings) {
+    return getDevice(CameraDeviceInterface.class, 0, pMustContainStrings);
+  }
+
+  public DetectionArmInterface getDetectionArmDevice(String ... pMustContainStrings) {
+    return getDevice(DetectionArmInterface.class, 0, pMustContainStrings);
+  }
+
+
+  public SpatialPhaseModulatorDeviceInterface getSpatialPhaseModulatorDevice(String ... pMustContainStrings) {
+    return getDevice(SpatialPhaseModulatorDeviceInterface.class, 0, pMustContainStrings);
+  }
+
+  public BasicStageInterface getBasicStageDevice(String ... pMustContainStrings) {
+    return getDevice(BasicStageInterface.class, 0, pMustContainStrings);
+  }
+
+  public FilterWheelDeviceInterface getFilterWheelDevice(String ... pMustContainStrings) {
+    return getDevice(FilterWheelDeviceInterface.class, 0, pMustContainStrings);
+  }
+
+
+
+
+
+
+
+
+
+
+  public <O extends Object> O getDevice(Class<O> pClass, int pDeviceIndex, String ... pMustContainStrings)
+  {
     int lDeviceIndex = 0;
-    ArrayList<Object>
-        lDeviceList = mMicroscopeInterface.getDevices(Object.class);
-    for (Object lDevice : lDeviceList) {
+    ArrayList<O>
+        lDeviceList = mMicroscopeInterface.getDevices(pClass);
+    for (O lDevice : lDeviceList) {
       String lName = lDevice.toString();
       boolean lNameMatches = true;
       for (String lMustContainString : pMustContainStrings) {
@@ -65,6 +106,10 @@ public abstract class EasyMicroscope
       }
     }
     return null;
+  }
+
+  public Object getDevice(int pDeviceIndex, String ... pMustContainStrings) {
+    return getDevice(Object.class, pDeviceIndex, pMustContainStrings);
   }
 
   public Object getDevice(String... pMustContainStrings) {
