@@ -1,7 +1,7 @@
 # EasyScopy
 Fiji plugin for microscope control scripting. 
 
-After installation of the easyscopy.jar and its dependencies, you can communicate to your microscope and take images from Fiji scripts. However, your microscope should be controlled by ClearControl (http://github.com/ClearControl). To play with the library, there are simulated microscopes available.
+After installation of the easyscopy.jar and its dependencies, you can communicate to your microscope and take images from Fiji scripts. However, your microscope should be controlled by [ClearControl](http://github.com/ClearControl). To play with the library, there are simulated microscopes available.
 
 Example code for taking a single image:
 ```
@@ -70,7 +70,7 @@ Take care: EasyScopy is in early developmental stage. Installing it to your Fiji
 If you get error messages, like `Package __site__ not found`, update your Fiji installation. If the Fiji Updater lists libraries as `locally modified` update them by selecting them as `Uninstall`.
 
 ## OpenCL error messages on MacOS
-When installing EasyScopy on a recent MacOS, you might get OpenCL error messages after the first run. In that case, the default OpenCL device is not supported. After the first run, you will find a `.clearcontrol` directory within your home directory. Navigate to that folder and open the `configurationn.txt` and enter these two lines:
+When installing EasyScopy on a recent MacOS, you might get OpenCL error messages after the first run. In that case, the default OpenCL device is not supported. After the first run, you will find a `.clearcontrol` directory within your home directory. Navigate to that folder and open the `configuration.txt` and enter these two lines:
 ```
 clearcl.device.fusion = GPU
 clearcl.device.simulation = GPU
@@ -84,6 +84,6 @@ from ij import IJ;
 IJ.log(ClearCLIJ.clinfo());
 ```
 
-See more information on GPU compatibility on (ClearCL)[https://github.com/ClearVolume/ClearCL] and (ClearCLIJ)[https://github.com/ClearControl/ClearCLIJ] github pages.
+See more information on GPU compatibility on [ClearCL](https://github.com/ClearVolume/ClearCL) and [ClearCLIJ](https://github.com/ClearControl/ClearCLIJ) github pages.
 
 
