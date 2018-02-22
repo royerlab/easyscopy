@@ -64,3 +64,24 @@ deploy.bat
 ```
 
 Take care: EasyScopy is in early developmental stage. Installing it to your Fiji may harm your Fiji installation as it brings many dependencies which may be incompatible with other plugins. It is recommended not to work in a production environment.
+
+# Trouble shooting
+## Various Python error messages after installation to Fiji
+If you get error messages, like "Package __site__ not found", update your Fiji installation. If the Fiji Updater lists librariers as "locally modified" update them by selecting them as "Uninstall".
+
+## OpenCL error messages on MacOS
+When installing EasyScopy on a recent MacOS, you might get OpenCL error messages after the first run. In that case, the default OpenCL device is not supported. After the first run, you will find a `.clearcontrol` directory within your home directory. Navigate to that folder and open the `configurationn.txt` and enter these two lines:
+```
+clearcl.device.fusion = GPU
+clearcl.device.simulation = GPU
+```
+
+Replace `GPU` with the name (or a part of the name) of your favorite installed OpenCL device. You can get a list of all GPU devices by running this jython script:
+
+```
+from clearcl.imagej import ClearCLIJ;
+from ij import IJ;
+IJ.log(ClearCLIJ.clinfo());
+```
+
+
