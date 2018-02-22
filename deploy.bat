@@ -1,1 +1,1 @@
-mvn -Denforcer.skip install
+mvn -Denforcer.skip deploy
