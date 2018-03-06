@@ -4,8 +4,10 @@ import clearcl.ClearCLContext;
 import clearcontrol.devices.cameras.CameraDeviceInterface;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.devices.optomech.filterwheels.FilterWheelDeviceInterface;
+import clearcontrol.devices.signalgen.SignalGeneratorInterface;
 import clearcontrol.devices.stages.BasicStageInterface;
 import clearcontrol.microscope.MicroscopeInterface;
+import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.component.detection.DetectionArmInterface;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
 import clearcontrol.microscope.lightsheet.spatialphasemodulation.slms.SpatialPhaseModulatorDeviceInterface;
@@ -73,6 +75,9 @@ public abstract class EasyMicroscope
     return getDevice(FilterWheelDeviceInterface.class, 0, pMustContainStrings);
   }
 
+  public SignalGeneratorInterface getSignalGeneratorDevice(String ... pMustContainStrings) {
+    return getDevice(SignalGeneratorInterface.class, 0, pMustContainStrings);
+  }
 
 
 
