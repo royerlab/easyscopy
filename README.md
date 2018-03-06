@@ -63,6 +63,8 @@ cd EasyScopy
 deploy.bat
 ```
 
+Run your Fiji and update it. "jython.jar" may be marked as "Locally modified". Mark it as "Uninstall" and perform the update.
+
 Take care: EasyScopy is in early developmental stage. Installing it to your Fiji may harm your Fiji installation as it brings many dependencies which may be incompatible with other plugins. It is recommended not to work in a production environment.
 
 # Trouble shooting
