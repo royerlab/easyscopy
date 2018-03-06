@@ -3,11 +3,14 @@ package net.clearcontrol.easyscopy.lightsheet;
 import clearcl.ClearCLContext;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
+import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
+import clearcontrol.microscope.lightsheet.imaging.DirectFusedImageStack;
 import clearcontrol.microscope.lightsheet.imaging.DirectImage;
 import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionEngine;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionProcessor;
+import clearcontrol.microscope.lightsheet.state.InterpolatedAcquisitionState;
 import net.clearcontrol.easyscopy.EasyMicroscope;
 import net.clearcontrol.easyscopy.EasyScope;
 import org.atteo.classindex.ClassIndex;
@@ -63,6 +66,20 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   public LightSheetInterface getLightSheetDevice(String ... pMustContainStrings) {
     return getDevice(LightSheetInterface.class, 0, pMustContainStrings);
   }
+
+
+  public LightSheetMicroscopeQueue getQueue() {
+    return mLightSheetMicroscope.requestQueue();
+  }
+
+  public InterpolatedAcquisitionState getAcquisitionState() {
+    return (InterpolatedAcquisitionState)mLightSheetMicroscope.getAcquisitionStateManager().getCurrentState();
+  }
+
+  public DirectFusedImageStack getDirectFusedImageStack(){
+    return new DirectFusedImageStack(mLightSheetMicroscope);
+  }
+
 
 
 }

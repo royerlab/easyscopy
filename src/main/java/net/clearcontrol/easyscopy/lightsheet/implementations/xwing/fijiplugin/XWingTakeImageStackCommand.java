@@ -5,6 +5,7 @@ import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
 import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
 import clearcontrol.stack.OffHeapPlanarStack;
+import clearcontrol.stack.StackInterface;
 import ij.IJ;
 import ij.ImageJ;
 import ij.gui.GenericDialog;
@@ -14,7 +15,6 @@ import net.clearcontrol.easyscopy.lightsheet.implementations.xwing.XWingScope;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
-import ome.xml.model.Laser;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 import xwing.XWingMicroscope;
@@ -109,11 +109,11 @@ public class XWingTakeImageStackCommand implements Command
 
       lDirectImageStack.setExposureTimeInSeconds(mExposureTimeInSeconds);
 
-      OffHeapPlanarStack lStack = lDirectImageStack.acquire();
+      StackInterface lStack = lDirectImageStack.acquire();
 
       // coonvert and show
       RandomAccessibleInterval<UnsignedShortType>
-          img = ClearCLIJ.getInstance().converter(lStack).getRandomAccessibleInterval();
+          img = ClearCLIJ.getInstance().converter((OffHeapPlanarStack)lStack).getRandomAccessibleInterval();
 
       ImageJFunctions.wrap(img, "Acquired image stack " + sImageCount).show();
       IJ.run("Enhance Contrast", "saturated=0.35");

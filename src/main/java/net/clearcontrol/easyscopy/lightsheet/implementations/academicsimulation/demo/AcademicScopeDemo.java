@@ -3,6 +3,7 @@ package net.clearcontrol.easyscopy.lightsheet.implementations.academicsimulation
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.imaging.DirectImage;
 import clearcontrol.stack.OffHeapPlanarStack;
+import clearcontrol.stack.StackInterface;
 import ij.IJ;
 import ij.ImageJ;
 import net.clearcontrol.easyscopy.EasyScopyUtilities;
@@ -87,12 +88,12 @@ public class AcademicScopeDemo
       lImage.setLightSheetIndex(l);
       //    lImage.setLightSheetIndex();
 
-      OffHeapPlanarStack lStack = lImage.acquire();
+      StackInterface lStack = lImage.acquire();
 
       // start acquisition
       RandomAccessibleInterval<UnsignedShortType>
           img =
-          EasyScopyUtilities.stackToImg(lStack);
+          EasyScopyUtilities.stackToImg((OffHeapPlanarStack)lStack);
 
       // show the image
       ImageJFunctions.show(img);

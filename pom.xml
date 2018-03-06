@@ -117,7 +117,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>fastfuse</artifactId>
-			<version>0.6.1-RH</version>
+			<version>0.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -137,7 +137,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearcontrol-lightsheet</artifactId>
-			<version>1.20.1</version>
+			<version>1.20.2</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
@@ -147,7 +147,7 @@
 		<dependency>
 			<groupId>net.clearvolume</groupId>
 			<artifactId>clearcl</artifactId>
-			<version>0.5.2</version>
+			<version>0.5.5-RH</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scijava</groupId>

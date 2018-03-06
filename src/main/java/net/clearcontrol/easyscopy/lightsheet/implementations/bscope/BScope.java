@@ -4,7 +4,6 @@ import net.clearcontrol.easyscopy.EasyScope;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 import xwing.BScopeMicroscope;
 
-import static com.esotericsoftware.minlog.Log.info;
 
 /**
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)

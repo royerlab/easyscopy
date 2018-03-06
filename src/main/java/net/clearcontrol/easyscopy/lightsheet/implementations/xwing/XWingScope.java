@@ -1,5 +1,6 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.xwing;
 
+import clearcontrol.microscope.lightsheet.imaging.DirectFusedImageStack;
 import net.clearcontrol.easyscopy.EasyScope;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 import xwing.XWingMicroscope;

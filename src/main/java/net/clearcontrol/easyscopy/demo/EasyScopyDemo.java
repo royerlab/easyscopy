@@ -6,6 +6,7 @@ import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.imaging.DirectImage;
 import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
 import clearcontrol.stack.OffHeapPlanarStack;
+import clearcontrol.stack.StackInterface;
 import fastfuse.tasks.GaussianBlurTask;
 import ij.IJ;
 import ij.ImageJ;
@@ -75,7 +76,7 @@ public class EasyScopyDemo
 
     // start acquisition
     RandomAccessibleInterval<UnsignedShortType>
-        img = EasyScopyUtilities.stackToImg(lImage.acquire());
+        img = EasyScopyUtilities.stackToImg((OffHeapPlanarStack) lImage.acquire());
 
     // show the image
     ImageJFunctions.show(img);
@@ -92,11 +93,11 @@ public class EasyScopyDemo
     lImageStack.setDetectionZStepDistance(1);
     lImageStack.setIlluminationZStepDistance(1);
 
-    OffHeapPlanarStack lAcquiredStack = lImageStack.acquire();
+    StackInterface lAcquiredStack = lImageStack.acquire();
 
     // Convert to GPU and do postprocessing
-    ClearCLImage lInputImage = lCLIJ.converter(lAcquiredStack).getClearCLImage();
-    ClearCLImage lOutputImage = lCLIJ.converter(lAcquiredStack).getClearCLImage();
+    ClearCLImage lInputImage = lCLIJ.converter((OffHeapPlanarStack)lAcquiredStack).getClearCLImage();
+    ClearCLImage lOutputImage = lCLIJ.converter((OffHeapPlanarStack)lAcquiredStack).getClearCLImage();
 
     Map<String, Object> lParameters = new HashMap<String, Object>();
     lParameters.put("src", lInputImage);
