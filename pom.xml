@@ -14,7 +14,7 @@
 
 	<groupId>net.clearcontrol</groupId>
 	<artifactId>easyscopy</artifactId>
-	<version>0.1.6-SNAPSHOT</version>
+	<version>0.1.6</version>
 
 	<name>EasyScopy</name>
 	<description>EasyScopy</description>
@@ -127,7 +127,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>XWing</artifactId>
-			<version>1.0.11</version>
+			<version>1.0.12</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
