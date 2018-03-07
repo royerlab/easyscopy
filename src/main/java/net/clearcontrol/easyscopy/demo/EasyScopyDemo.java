@@ -13,6 +13,7 @@ import ij.ImageJ;
 import net.clearcontrol.easyscopy.EasyScopy;
 import net.clearcontrol.easyscopy.EasyScopyUtilities;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
+import net.clearcontrol.easyscopy.lightsheet.implementations.bscope.BScope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.bscope.SimulatedBScope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.xwing.SimulatedXWingScope;
 import net.imglib2.RandomAccessibleInterval;
@@ -48,7 +49,7 @@ public class EasyScopyDemo
 
     // The scope is an instance of EasyLightsheetMicroscope
     //EasyLightsheetMicroscope lScope = SimulatedBScope.getInstance();
-    EasyLightsheetMicroscope lScope = SimulatedXWingScope.getInstance();
+    EasyLightsheetMicroscope lScope = BScope.getInstance();
 
     ArrayList<Object> lDeviceList = lScope.getDevices();
     IJ.log(lScope.toString() + " devices:");

@@ -1,12 +1,14 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.cameraonlyscope;
 
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
+import net.clearcontrol.easyscopy.EasyScope;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 
 /**
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * March 2018
  */
+@EasyScope
 public class HamamatsuCameraOnlyScope extends EasyLightsheetMicroscope
 {
 
