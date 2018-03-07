@@ -1,36 +1,24 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.cameraonlyscope.demo;
 
-import clearcontrol.devices.cameras.CameraDeviceInterface;
-import clearcontrol.devices.cameras.StackCameraQueue;
-import clearcontrol.devices.cameras.devices.hamamatsu.HamStackCamera;
-import clearcontrol.devices.cameras.devices.hamamatsu.HamStackCameraQueue;
-import clearcontrol.devices.lasers.devices.sim.LaserDeviceSimulator;
-import clearcontrol.devices.signalgen.devices.sim.SignalGeneratorSimulatorDevice;
-import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
-import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
-import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheet;
-import clearcontrol.microscope.lightsheet.component.opticalswitch.LightSheetOpticalSwitch;
-import clearcontrol.microscope.lightsheet.signalgen.LightSheetSignalGeneratorDevice;
 import clearcontrol.stack.OffHeapPlanarStack;
 import clearcontrol.stack.StackInterface;
 import ij.IJ;
 import net.clearcontrol.easyscopy.EasyScopyUtilities;
-import net.clearcontrol.easyscopy.lightsheet.implementations.cameraonlyscope.HamamatsuCameraOnlyScope;
+import net.clearcontrol.easyscopy.lightsheet.implementations.cameraonlyscope.CameraOnlyScope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.cameraonlyscope.camera.device.DcamJ1Camera;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class HamamatsuCameraOnlyDemo {
+public class CameraOnlyDemo {
 
     public static void main(String... args) throws InterruptedException, TimeoutException, ExecutionException {
 
         // The HamamatsuCameraOnlyLightSheetMicroscope is an instance of EasyLightSheetMicroscope
-        HamamatsuCameraOnlyScope lScope = HamamatsuCameraOnlyScope.getInstance();
+        CameraOnlyScope lScope = CameraOnlyScope.getInstance();
         System.out.println(lScope.getDevices());
 
         /*
@@ -96,7 +84,7 @@ public class HamamatsuCameraOnlyDemo {
         // That's always a good idea by the end!
         lScope.shutDownAllLasers();
 
-        HamamatsuCameraOnlyScope.cleanup();
+        CameraOnlyScope.cleanup();
         System.exit(0);
 
     }

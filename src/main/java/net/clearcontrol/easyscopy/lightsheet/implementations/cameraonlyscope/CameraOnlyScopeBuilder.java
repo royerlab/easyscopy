@@ -12,7 +12,7 @@ import xwing.BScopeMicroscope;
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * March 2018
  */
-public class HamamatsuCameraOnlyScopeBuilder implements LoggingFeature
+class CameraOnlyScopeBuilder implements LoggingFeature
 {
   private LightSheetMicroscope mLightSheetMicroscope;
   private ClearCL mClearCL;
@@ -21,7 +21,7 @@ public class HamamatsuCameraOnlyScopeBuilder implements LoggingFeature
       sMachineConfiguration =
       MachineConfiguration.get();
 
-  public HamamatsuCameraOnlyScopeBuilder() {
+  public CameraOnlyScopeBuilder() {
     int lMaxStackProcessingQueueLength = 32;
     int lThreadPoolSize = 1;
 
@@ -41,7 +41,7 @@ public class HamamatsuCameraOnlyScopeBuilder implements LoggingFeature
 
 
     mLightSheetMicroscope =
-        new HamamatsuCameraOnlyLightSheetMicroscope(lStackFusionContext,
+        new CameraOnlyLightSheetMicroscope(lStackFusionContext,
                              lMaxStackProcessingQueueLength,
                              lThreadPoolSize);
 

@@ -1,29 +1,30 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.cameraonlyscope;
 
-import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
 import net.clearcontrol.easyscopy.EasyScope;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 
 /**
+ * The CameraOnlyScope allows accessing a single camera via the EasyLightsheedMicroscope API.
+ *
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * March 2018
  */
 @EasyScope
-public class HamamatsuCameraOnlyScope extends EasyLightsheetMicroscope
+public class CameraOnlyScope extends EasyLightsheetMicroscope
 {
 
 
-  private static HamamatsuCameraOnlyScope sInstance = null;
-  public static HamamatsuCameraOnlyScope getInstance() {
+  private static CameraOnlyScope sInstance = null;
+  public static CameraOnlyScope getInstance() {
     if (sInstance == null) {
-      sInstance = new HamamatsuCameraOnlyScope();
+      sInstance = new CameraOnlyScope();
     }
     return sInstance;
   }
 
-  public HamamatsuCameraOnlyScope()
+  public CameraOnlyScope()
   {
-    super(new HamamatsuCameraOnlyScopeBuilder().getLightSheetMicroscope());
+    super(new CameraOnlyScopeBuilder().getLightSheetMicroscope());
   }
 
 

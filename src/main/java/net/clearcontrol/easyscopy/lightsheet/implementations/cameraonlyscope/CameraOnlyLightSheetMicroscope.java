@@ -7,10 +7,13 @@ import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
 import net.clearcontrol.easyscopy.lightsheet.implementations.cameraonlyscope.camera.device.DcamJ1Camera;
 
 /**
+ * The CameraOnlyLightSheetMicroscope does not represent a functional microscope. It was created to access a single
+ * camera attached to the computer using the same API like with functional microscopes.
+ *
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * March 2018
  */
-public class HamamatsuCameraOnlyLightSheetMicroscope extends
+public class CameraOnlyLightSheetMicroscope extends
                                                      LightSheetMicroscope
 {
   /**
@@ -20,7 +23,7 @@ public class HamamatsuCameraOnlyLightSheetMicroscope extends
    * @param pMaxStackProcessingQueueLength max stack processing queue length
    * @param pThreadPoolSize
    */
-  public HamamatsuCameraOnlyLightSheetMicroscope(ClearCLContext pStackFusionContext,
+  public CameraOnlyLightSheetMicroscope(ClearCLContext pStackFusionContext,
                                                  int pMaxStackProcessingQueueLength,
                                                  int pThreadPoolSize)
   {
