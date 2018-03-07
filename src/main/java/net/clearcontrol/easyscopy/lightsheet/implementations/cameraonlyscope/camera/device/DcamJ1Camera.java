@@ -26,7 +26,7 @@ public class DcamJ1Camera {
         //byte[] lBuffer = new byte[(int)pDcamFrame.getTotalSizeInBytesForAllPlanes()];
     }
 
-    public StackInterface acquire() throws InterruptedException {
+    public StackInterface acquire() {
 
         final DcamAcquisition lDcamAcquisition = new DcamAcquisition(0);
 
@@ -62,15 +62,32 @@ public class DcamJ1Camera {
 
         assertTrue(lDcamAcquisition.open());
         lDcamAcquisition.getProperties().setOutputTriggerToProgrammable();
-        assertTrue(lDcamAcquisition.getProperties().setBinning(2));
+        lDcamAcquisition.getProperties().setBinning(2);
         lDcamAcquisition.getProperties().setExposure(mExposureTimeInSeconds);
-        assertTrue(lDcamAcquisition.getProperties().setCenteredROI(	mImageWidth,
-                mImageHeight));
+        lDcamAcquisition.getProperties().setCenteredROI(	mImageWidth,
+                mImageHeight);
 
         lDcamAcquisition.startAcquisition();
-        Thread.sleep((long)(mTimeOutInSeconds * 1000));
+        try {
+            Thread.sleep((long)(mTimeOutInSeconds * 1000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         lDcamAcquisition.stopAcquisition();
         lDcamAcquisition.close();
         return mAcquiredStack;
+    }
+
+    public void setExposureTimeInSeconds(double pExposureTimeInSeconds) {
+        this.mExposureTimeInSeconds = pExposureTimeInSeconds;
+        this.mTimeOutInSeconds = 1.9 * pExposureTimeInSeconds;
+    }
+
+    public void setImageWidth(long pImageWidth) {
+        this.mImageWidth = pImageWidth;
+    }
+
+    public void setImageHeight(long pImageHeight) {
+        this.mImageHeight = pImageHeight;
     }
 }
