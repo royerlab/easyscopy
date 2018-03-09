@@ -23,7 +23,7 @@ import java.io.File;
 
 /**
  * This demo shows how to initialize two scopes: A BScope without camera and another
- * scope only controlling one camera. It furthermore allows to change the mirror mode of the
+ * scope only controlling one camera. It furthermore allows to change the mirror mode of the deformable mirror
  *
  *
  *
@@ -100,6 +100,10 @@ public class BlindBScopeDemo {
         double value = lMultipliedMatrix.get(5,6);
         value = value + 0.1;
         lMultipliedMatrix.set(5, 6, value);
+
+        // rotate a matrix
+        DenseMatrix64F lRotatedMatrix = lMatrix.copy();
+        TransformMatrices.rotateClockwise(lMatrix, lRotatedMatrix);
 
 
         // --------------------------------------------

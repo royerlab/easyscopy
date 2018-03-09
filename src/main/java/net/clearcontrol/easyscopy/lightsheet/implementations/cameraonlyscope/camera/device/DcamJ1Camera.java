@@ -13,10 +13,10 @@ import static org.junit.Assert.assertTrue;
 public class DcamJ1Camera {
 
     double mTimeOutInSeconds = 0.02;
-    double mExposureTimeInSeconds = 0.01;
+    double mExposureTimeInSeconds = 0.05;
 
-    long mImageWidth = 512;
-    long mImageHeight = 512;
+    long mImageWidth = 2048;
+    long mImageHeight = 2048;
 
 
     OffHeapPlanarStack mAcquiredStack = null;
@@ -62,7 +62,7 @@ public class DcamJ1Camera {
 
         assertTrue(lDcamAcquisition.open());
         lDcamAcquisition.getProperties().setOutputTriggerToProgrammable();
-        lDcamAcquisition.getProperties().setBinning(2);
+        lDcamAcquisition.getProperties().setBinning(1);
         lDcamAcquisition.getProperties().setExposure(mExposureTimeInSeconds);
         lDcamAcquisition.getProperties().setCenteredROI(	mImageWidth,
                 mImageHeight);
