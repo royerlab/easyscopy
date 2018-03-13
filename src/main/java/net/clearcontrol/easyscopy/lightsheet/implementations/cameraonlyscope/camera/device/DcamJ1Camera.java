@@ -27,9 +27,12 @@ public class DcamJ1Camera {
     }
 
     public StackInterface acquire() {
-
+        // Create an acquisition
         final DcamAcquisition lDcamAcquisition = new DcamAcquisition(0);
 
+        // add a listener which is called whenever an image arrives
+        // e.g. it might be called every 0.05 s if 0.05 is exposure
+        // time
         lDcamAcquisition.addListener(new DcamAcquisitionListener()
         {
             @Override
@@ -49,6 +52,8 @@ public class DcamJ1Camera {
                         pDcamFrame.getWidth(),
                         pDcamFrame.getHeight());
 
+                // transform the arriving data to an OffHeapPlanarStack,
+                // the usual data structure for image stacks in clearcontrol
                 OffHeapPlanarStack lStack = mAcquiredStack;
                 if (lStack == null) {
                     lStack = new OffHeapPlanarStack(true, 0, NativeTypeEnum.UnsignedShort, 1, new long[]{pDcamFrame.getWidth(), pDcamFrame.getHeight(), pDcamFrame.getDepth()});
@@ -60,6 +65,7 @@ public class DcamJ1Camera {
             }
         });
 
+        // configure the camera
         assertTrue(lDcamAcquisition.open());
         lDcamAcquisition.getProperties().setOutputTriggerToProgrammable();
         lDcamAcquisition.getProperties().setBinning(1);
@@ -67,12 +73,15 @@ public class DcamJ1Camera {
         lDcamAcquisition.getProperties().setCenteredROI(	mImageWidth,
                 mImageHeight);
 
+        // start imaging, wait for a given timeout; within this timeout
+        // the listener above should be called
         lDcamAcquisition.startAcquisition();
         try {
             Thread.sleep((long)(mTimeOutInSeconds * 1000));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        // stop imaging
         lDcamAcquisition.stopAcquisition();
         lDcamAcquisition.close();
         return mAcquiredStack;
