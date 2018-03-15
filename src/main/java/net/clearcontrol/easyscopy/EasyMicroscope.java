@@ -10,9 +10,11 @@ import clearcontrol.microscope.MicroscopeInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.component.detection.DetectionArmInterface;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
+import clearcontrol.microscope.lightsheet.signalgen.LightSheetSignalGeneratorDevice;
 import clearcontrol.microscope.lightsheet.spatialphasemodulation.slms.SpatialPhaseModulatorDeviceInterface;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
@@ -75,10 +77,6 @@ public abstract class EasyMicroscope
     return getDevice(FilterWheelDeviceInterface.class, 0, pMustContainStrings);
   }
 
-  public SignalGeneratorInterface getSignalGeneratorDevice(String ... pMustContainStrings) {
-    return getDevice(SignalGeneratorInterface.class, 0, pMustContainStrings);
-  }
-
 
 
 
@@ -90,8 +88,10 @@ public abstract class EasyMicroscope
   public <O extends Object> O getDevice(Class<O> pClass, int pDeviceIndex, String ... pMustContainStrings)
   {
     int lDeviceIndex = 0;
+    //System.out.println(pClass);
     ArrayList<O>
         lDeviceList = mMicroscopeInterface.getDevices(pClass);
+    System.out.println("Printing Device List in EasyMicroscopy of "+pClass+" class: "+lDeviceList);
     for (O lDevice : lDeviceList) {
       String lName = lDevice.toString();
       boolean lNameMatches = true;
@@ -104,12 +104,14 @@ public abstract class EasyMicroscope
       if (lNameMatches) {
         if (lDeviceIndex == pDeviceIndex)
         {
+          //System.out.println("Returning Device for "+lName);
           return lDevice;
         } else {
           lDeviceIndex++;
         }
       }
     }
+    System.out.println("Returning Null Device for "+ Arrays.toString(pMustContainStrings));
     return null;
   }
 

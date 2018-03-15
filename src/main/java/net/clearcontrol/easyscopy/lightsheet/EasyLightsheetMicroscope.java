@@ -5,9 +5,12 @@ import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
-import clearcontrol.microscope.lightsheet.imaging.*;
+import clearcontrol.microscope.lightsheet.imaging.DirectFusedImageStack;
+import clearcontrol.microscope.lightsheet.imaging.DirectImage;
+import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionEngine;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionProcessor;
+import clearcontrol.microscope.lightsheet.signalgen.LightSheetSignalGeneratorDevice;
 import clearcontrol.microscope.lightsheet.state.InterpolatedAcquisitionState;
 import clearcontrol.microscope.state.AcquisitionType;
 import net.clearcontrol.easyscopy.EasyMicroscope;
@@ -157,6 +160,11 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
     return (InterpolatedAcquisitionState)mLightSheetMicroscope.getAcquisitionStateManager().getCurrentState();
   }
 
+
+
+  public LightSheetSignalGeneratorDevice getLightSheetSignalGeneratorDevice(String ... pMustContainStrings) {
+    return getDevice(LightSheetSignalGeneratorDevice.class, 0, pMustContainStrings);
+  }
 
 
 

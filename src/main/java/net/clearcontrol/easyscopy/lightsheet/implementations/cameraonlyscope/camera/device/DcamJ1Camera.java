@@ -22,13 +22,16 @@ public class DcamJ1Camera {
     OffHeapPlanarStack mAcquiredStack = null;
 
 
+    final DcamAcquisition lDcamAcquisition;
     public DcamJ1Camera() {
         //byte[] lBuffer = new byte[(int)pDcamFrame.getTotalSizeInBytesForAllPlanes()];
+
+        lDcamAcquisition = new DcamAcquisition(0);
+        assertTrue(lDcamAcquisition.open());
     }
 
     public StackInterface acquire() {
         // Create an acquisition
-        final DcamAcquisition lDcamAcquisition = new DcamAcquisition(0);
 
         // add a listener which is called whenever an image arrives
         // e.g. it might be called every 0.05 s if 0.05 is exposure
@@ -66,7 +69,6 @@ public class DcamJ1Camera {
         });
 
         // configure the camera
-        assertTrue(lDcamAcquisition.open());
         lDcamAcquisition.getProperties().setOutputTriggerToProgrammable();
         lDcamAcquisition.getProperties().setBinning(1);
         lDcamAcquisition.getProperties().setExposure(mExposureTimeInSeconds);
@@ -75,15 +77,16 @@ public class DcamJ1Camera {
 
         // start imaging, wait for a given timeout; within this timeout
         // the listener above should be called
+        System.out.println("Starting acquisition");
         lDcamAcquisition.startAcquisition();
         try {
-            Thread.sleep((long)(mTimeOutInSeconds * 1000));
+            Thread.sleep((long)(mTimeOutInSeconds * 10000));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         // stop imaging
+        System.out.println("Stoping acquisition");
         lDcamAcquisition.stopAcquisition();
-        lDcamAcquisition.close();
         return mAcquiredStack;
     }
 
@@ -98,5 +101,10 @@ public class DcamJ1Camera {
 
     public void setImageHeight(long pImageHeight) {
         this.mImageHeight = pImageHeight;
+    }
+
+    public void close() {
+
+        lDcamAcquisition.close();
     }
 }

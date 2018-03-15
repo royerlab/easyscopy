@@ -3,6 +3,9 @@ package net.clearcontrol.easyscopy.lightsheet.implementations.blindbscope;
 import clearcontrol.core.device.queue.QueueInterface;
 import clearcontrol.core.variable.Variable;
 import clearcontrol.devices.cameras.StackCameraDeviceInterface;
+import clearcontrol.devices.cameras.StackCameraQueue;
+import clearcontrol.devices.cameras.devices.hamamatsu.HamStackCameraQueue;
+import clearcontrol.microscope.lightsheet.component.detection.DetectionArmQueue;
 import clearcontrol.stack.StackInterface;
 import clearcontrol.stack.StackRequest;
 import coremem.recycling.RecyclerInterface;
@@ -131,7 +134,7 @@ public class BlindCamera implements StackCameraDeviceInterface {
 
     @Override
     public QueueInterface requestQueue() {
-        return null;
+        return new HamStackCameraQueue();
     }
 
     @Override
