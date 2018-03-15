@@ -1,6 +1,7 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.blindbscope.demo;
 
 import clearcontrol.devices.lasers.LaserDeviceInterface;
+import clearcontrol.devices.optomech.filterwheels.FilterWheelDeviceInterface;
 import clearcontrol.devices.slm.slms.DeformableMirrorDevice;
 import clearcontrol.microscope.lightsheet.spatialphasemodulation.io.DenseMatrix64FReader;
 import clearcontrol.microscope.lightsheet.spatialphasemodulation.slms.SpatialPhaseModulatorDeviceInterface;
@@ -39,6 +40,10 @@ public class BlindBScopeDemo {
         // --------------------------------------------
         // run the BScope without camera
         BlindBScope lScope = BlindBScope.getInstance();
+        //System.out.println(lScope.getDevices());
+
+        FilterWheelDeviceInterface lfilter = lScope.getFilterWheelDevice("FLIFilterWheel");
+        lfilter.setPosition(7);
 
         LaserDeviceInterface lLaser = lScope.getLaserDevice("488");
         lLaser.setTargetPowerInPercent(10);
