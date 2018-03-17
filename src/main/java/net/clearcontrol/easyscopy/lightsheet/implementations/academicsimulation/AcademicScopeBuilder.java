@@ -34,9 +34,11 @@ class AcademicScopeBuilder implements LoggingFeature
       info("OpenCl devices available: %s \n",
            lClearCLDevice.getName());
 
+    System.out.println("dev: " + sMachineConfiguration.getStringProperty("clearcl.device.fusion",
+            ""));
+
     ClearCLContext lStackFusionContext = mClearCL
-        .getDeviceByName(sMachineConfiguration.getStringProperty("clearcl.device.fusion",
-                                                                 ""))
+        .getDeviceByName("CPU")
         .createContext();
 
     info("Using device %s for stack fusion \n",
@@ -44,8 +46,7 @@ class AcademicScopeBuilder implements LoggingFeature
 
 
     ClearCLContext lSimulationContext = mClearCL
-        .getDeviceByName(sMachineConfiguration.getStringProperty("clearcl.device.simulation",
-                                                                 "HD"))
+        .getDeviceByName("CPU")
         .createContext();
 
 
