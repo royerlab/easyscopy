@@ -14,7 +14,7 @@
 
 	<groupId>net.clearcontrol</groupId>
 	<artifactId>easyscopy</artifactId>
-	<version>0.1.6</version>
+	<version>0.1.8</version>
 
 	<name>EasyScopy</name>
 	<description>EasyScopy</description>
@@ -103,10 +103,15 @@
 	</repositories>
 
 	<dependencies>
+        <dependency>
+            <groupId>com.nativelibs4java</groupId>
+            <artifactId>bridj</artifactId>
+            <version>0.7.0</version>
+        </dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
-			<artifactId>DcamJ</artifactId>
-			<version>2.1.5</version>
+			<artifactId>dcamj</artifactId>
+			<version>2.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
@@ -136,7 +141,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>XWing</artifactId>
-			<version>1.0.12</version>
+			<version>1.0.15</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
@@ -146,12 +151,12 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearcontrol-lightsheet</artifactId>
-			<version>1.20.2</version>
+			<version>1.22.4</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearcontrol</artifactId>
-			<version>0.15.1</version>
+			<version>0.15.9</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearvolume</groupId>
