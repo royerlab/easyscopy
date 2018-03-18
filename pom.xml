@@ -116,12 +116,12 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>simbryo</artifactId>
-			<version>0.8.2-RH</version>
+			<version>0.8.5</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearclij</artifactId>
-			<version>0.1.1</version>
+			<version>0.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>de.mpicbg.rhaase</groupId>
@@ -161,7 +161,7 @@
 		<dependency>
 			<groupId>net.clearvolume</groupId>
 			<artifactId>clearcl</artifactId>
-			<version>0.5.5-RH</version>
+			<version>0.5.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scijava</groupId>
