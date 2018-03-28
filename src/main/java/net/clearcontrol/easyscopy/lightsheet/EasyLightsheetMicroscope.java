@@ -5,12 +5,11 @@ import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
-import clearcontrol.microscope.lightsheet.imaging.DirectFusedImageStack;
-import clearcontrol.microscope.lightsheet.imaging.DirectImage;
-import clearcontrol.microscope.lightsheet.imaging.DirectImageStack;
+import clearcontrol.microscope.lightsheet.imaging.*;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionEngine;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionProcessor;
 import clearcontrol.microscope.lightsheet.state.InterpolatedAcquisitionState;
+import clearcontrol.microscope.state.AcquisitionType;
 import net.clearcontrol.easyscopy.EasyMicroscope;
 import net.clearcontrol.easyscopy.EasyScope;
 import org.atteo.classindex.ClassIndex;
@@ -33,11 +32,50 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
 
   // -----------------------------------------------------------------
   // imaging
+  public SinglePlaneImager getSinglePlaneImager(int pLightSheetZ, int pDetectionArmZ) {
+    SinglePlaneImager imager = new SinglePlaneImager(mLightSheetMicroscope);
+    imager.setIlluminationZ(pLightSheetZ);
+    imager.setDetectionZ(pDetectionArmZ);
+    return imager;
+  }
+
+  public SingleStackImager getSingleStackImager() {
+    return new SingleStackImager(mLightSheetMicroscope);
+  }
+
+  public FusedStackImager getSequentialFusedStackImager() {
+    FusedStackImager imager = new FusedStackImager(mLightSheetMicroscope);
+    imager.setAcquisitionType(AcquisitionType.TimelapseSequential);
+    return imager;
+  }
+
+  public FusedStackImager getInterleavedFusedStackImager() {
+    FusedStackImager imager = new FusedStackImager(mLightSheetMicroscope);
+    imager.setAcquisitionType(AcquisitionType.TimeLapseInterleaved);
+    return imager;
+  }
+
+  public FusedStackImager getOpticsPrefusedFusedStackImager() {
+    FusedStackImager imager = new FusedStackImager(mLightSheetMicroscope);
+    imager.setAcquisitionType(AcquisitionType.TimeLapseOpticallyCameraFused);
+    return imager;
+  }
+
+  /**
+   * Deprecated: use getSinglePlaneImager instead!
+   * @return
+   */
+  @Deprecated
   public DirectImage getDirectImage() {
     DirectImage lDirectImage = new DirectImage(mLightSheetMicroscope);
     return lDirectImage;
   }
 
+  /**
+   * Deprecated: use getSinglePlaneImager instead!
+   * @return
+   */
+  @Deprecated
   public DirectImage getDirectImage(int pLightSheetZ, int pDetectionArmZ) {
     DirectImage lDirectImage = getDirectImage();
     lDirectImage.setIlluminationZ(pLightSheetZ);
@@ -45,6 +83,11 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
     return lDirectImage;
   }
 
+  /**
+   * Deprecated: use getSingleStackImager instead!
+   * @return
+   */
+  @Deprecated
   public DirectImageStack getDirectImageStack() {
     return new DirectImageStack(mLightSheetMicroscope);
   }
