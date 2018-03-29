@@ -3,7 +3,7 @@ package net.clearcontrol.easyscopy.lightsheet.implementations.blindbscope.demo;
 import clearcontrol.devices.cameras.StackCameraDeviceInterface;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.devices.optomech.filterwheels.FilterWheelDeviceInterface;
-import clearcontrol.devices.slm.slms.DeformableMirrorDevice;
+
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.spatialphasemodulation.io.DenseMatrix64FReader;
