@@ -18,7 +18,7 @@ import net.imglib2.type.numeric.integer.UnsignedShortType;
  * Author: Robert Haase (http://haesleinhuepf.net) at MPI CBG (http://mpi-cbg.de)
  * March 2018
  */
-public class SimulatedXWingFusionDemo
+public class RealXWingFusionDemo
 {
   public static void main(String... args){
     new ImageJ();
