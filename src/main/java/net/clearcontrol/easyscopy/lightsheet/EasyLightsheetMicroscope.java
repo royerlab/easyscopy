@@ -32,6 +32,11 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
 
   // -----------------------------------------------------------------
   // imaging
+
+  public SinglePlaneImager getSinglePlaneImager() {
+    return new SinglePlaneImager(mLightSheetMicroscope);
+  }
+
   public SinglePlaneImager getSinglePlaneImager(int pLightSheetZ, int pDetectionArmZ) {
     SinglePlaneImager imager = new SinglePlaneImager(mLightSheetMicroscope);
     imager.setIlluminationZ(pLightSheetZ);
