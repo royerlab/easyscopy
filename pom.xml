@@ -14,7 +14,7 @@
 
 	<groupId>net.clearcontrol</groupId>
 	<artifactId>easyscopy</artifactId>
-	<version>0.1.12</version>
+	<version>0.1.14</version>
 
 	<name>EasyScopy</name>
 	<description>EasyScopy</description>
@@ -107,7 +107,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearcontrol-lightsheet</artifactId>
-			<version>1.22.6</version>
+			<version>1.22.7</version>
 		</dependency>
         <dependency>
             <groupId>com.nativelibs4java</groupId>
@@ -127,12 +127,12 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearclij</artifactId>
-			<version>0.1.5</version>
+			<version>0.2.7</version>
 		</dependency>
 		<dependency>
 			<groupId>de.mpicbg.rhaase</groupId>
 			<artifactId>imagequalitymetrics-microscopeautopilot</artifactId>
-			<version>0.1.1</version>
+			<version>0.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
@@ -147,7 +147,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>XWing</artifactId>
-			<version>1.0.16</version>
+			<version>1.0.18</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
@@ -157,12 +157,12 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearcontrol</artifactId>
-			<version>0.15.9</version>
+			<version>0.15.10</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearvolume</groupId>
 			<artifactId>clearcl</artifactId>
-			<version>0.5.6</version>
+			<version>0.5.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scijava</groupId>
