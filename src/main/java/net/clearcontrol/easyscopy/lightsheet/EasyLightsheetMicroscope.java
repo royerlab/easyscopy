@@ -33,10 +33,30 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   // -----------------------------------------------------------------
   // imaging
 
+  public SingleViewPlaneImager getSingleViewPlaneImager() {
+    return new SingleViewPlaneImager(mLightSheetMicroscope, 0);
+  }
+
+  public SingleViewStackImager getSingleViewStackImager() {
+    return new SingleViewStackImager(mLightSheetMicroscope);
+  }
+
+  /**
+   * Depreacted because this imager ignores the current acquisition state. Use getSingleViewPlaneImager() instead
+   * @return
+   */
+  @Deprecated
   public SinglePlaneImager getSinglePlaneImager() {
     return new SinglePlaneImager(mLightSheetMicroscope);
   }
 
+  /**
+   * Depreacted because this imager ignores the current acquisition state. Use getSingleViewPlaneImager() instead
+   * @param pLightSheetZ
+   * @param pDetectionArmZ
+   * @return
+   */
+  @Deprecated
   public SinglePlaneImager getSinglePlaneImager(int pLightSheetZ, int pDetectionArmZ) {
     SinglePlaneImager imager = new SinglePlaneImager(mLightSheetMicroscope);
     imager.setIlluminationZ(pLightSheetZ);
@@ -44,6 +64,11 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
     return imager;
   }
 
+  /**
+   * Depreacted because this imager ignores the current acquisition state. Use getSingleViewStackImager() instead
+   * @return
+   */
+  @Deprecated
   public SingleStackImager getSingleStackImager() {
     return new SingleStackImager(mLightSheetMicroscope);
   }
@@ -97,6 +122,14 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
     return new DirectImageStack(mLightSheetMicroscope);
   }
 
+  /**
+   * Deprecated. Use getSequentialFusedStackImager()
+   */
+  @Deprecated
+  public DirectFusedImageStack getDirectFusedImageStack(){
+    return new DirectFusedImageStack(mLightSheetMicroscope);
+  }
+
   // -----------------------------------------------------------------
   // general
   @Override
@@ -124,9 +157,6 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
     return (InterpolatedAcquisitionState)mLightSheetMicroscope.getAcquisitionStateManager().getCurrentState();
   }
 
-  public DirectFusedImageStack getDirectFusedImageStack(){
-    return new DirectFusedImageStack(mLightSheetMicroscope);
-  }
 
 
 
