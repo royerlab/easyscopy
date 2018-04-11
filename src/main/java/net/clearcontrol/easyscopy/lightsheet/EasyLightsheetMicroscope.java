@@ -10,6 +10,7 @@ import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionEngine;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionProcessor;
 import clearcontrol.microscope.lightsheet.signalgen.LightSheetSignalGeneratorDevice;
 import clearcontrol.microscope.lightsheet.state.InterpolatedAcquisitionState;
+import clearcontrol.microscope.lightsheet.timelapse.LightSheetTimelapse;
 import clearcontrol.microscope.state.AcquisitionType;
 import net.clearcontrol.easyscopy.EasyMicroscope;
 import net.clearcontrol.easyscopy.EasyScope;
@@ -158,6 +159,9 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
     return (InterpolatedAcquisitionState)mLightSheetMicroscope.getAcquisitionStateManager().getCurrentState();
   }
 
+  public LightSheetTimelapse getLightSheetTimelapse() {
+    return mLightSheetMicroscope.getDevice(LightSheetTimelapse.class, 0);
+  }
 
 
   public LightSheetSignalGeneratorDevice getLightSheetSignalGeneratorDevice(String ... pMustContainStrings) {
