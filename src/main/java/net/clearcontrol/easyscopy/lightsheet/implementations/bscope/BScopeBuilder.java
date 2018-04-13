@@ -224,11 +224,11 @@ public class BScopeBuilder implements LoggingFeature
     LightSheetOpticalSwitch lLightSheetOpticalSwitch = new LightSheetOpticalSwitch("OpticalSwitch", pNumberOfLightSheets);
     mBScopeMicroscope.addDevice(0, lLightSheetOpticalSwitch);
     FLIFilterWheelDevice lFLIFilterWheelDevice = new FLIFilterWheelDevice(1);
-    mBScopeMicroscope.addDevice(0, lFLIFilterWheelDevice);
-    SpatialPhaseModulatorDeviceBase lSpatialPhaseModulatorDeviceBase = new AlpaoDMDevice(1);
-    mBScopeMicroscope.addDevice(0, lSpatialPhaseModulatorDeviceBase);
-    MirrorModeScheduler lMirrorModeScheduler = new MirrorModeScheduler(lSpatialPhaseModulatorDeviceBase);
-    mBScopeMicroscope.addDevice(0, lMirrorModeScheduler);
+    //mBScopeMicroscope.addDevice(0, lFLIFilterWheelDevice);
+    //SpatialPhaseModulatorDeviceBase lSpatialPhaseModulatorDeviceBase = new AlpaoDMDevice(1);
+    //mBScopeMicroscope.addDevice(0, lSpatialPhaseModulatorDeviceBase);
+    //MirrorModeScheduler lMirrorModeScheduler = new MirrorModeScheduler(lSpatialPhaseModulatorDeviceBase);
+    //mBScopeMicroscope.addDevice(0, lMirrorModeScheduler);
     AnythingDevice lAnyDevice = new AnythingDevice();
     mBScopeMicroscope.addDevice(0, lAnyDevice);
     System.out.println("DEVICES ADDED");

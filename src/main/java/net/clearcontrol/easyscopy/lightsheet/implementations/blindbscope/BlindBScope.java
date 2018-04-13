@@ -27,7 +27,7 @@ public class BlindBScope extends EasyLightsheetMicroscope {
 
     private BScopeMicroscope mBScopeMicroscope;
     private BlindBScope() {
-        super(new BScopeBuilder(false, true).getBScopeMicroscope());
+        super(new BScopeBuilder(false, false).getBScopeMicroscope());
         mBScopeMicroscope = (BScopeMicroscope) getLightSheetMicroscope();
     }
 

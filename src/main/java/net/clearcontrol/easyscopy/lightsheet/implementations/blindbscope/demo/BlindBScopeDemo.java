@@ -6,7 +6,7 @@ import clearcontrol.devices.cameras.StackCameraDeviceInterface;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.devices.optomech.filterwheels.FilterWheelDeviceInterface;
 import clearcontrol.devices.signalgen.SignalGeneratorInterface;
-import clearcontrol.devices.slm.slms.DeformableMirrorDevice;
+//import clearcontrol.devices.slm.slms.DeformableMirrorDevice;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
@@ -83,13 +83,13 @@ public class BlindBScopeDemo {
         System.out.println("I AM HERE: "+lScope.getDevices());
         //---------------------------------------------------
         //Setting Filter Wheel Position
-        FilterWheelDeviceInterface lfilter = lScope.getFilterWheelDevice("FLIFilterWheel");
-        lfilter.setPosition(7);
+        //FilterWheelDeviceInterface lfilter = lScope.getFilterWheelDevice("FLIFilterWheel");
+        //lfilter.setPosition(7);
 
         //----------------------------------------------------------------
         //Turning Laser on
         LaserDeviceInterface lLaser = lScope.getLaserDevice("488");
-        lLaser.setTargetPowerInPercent(2.0);
+        lLaser.setTargetPowerInPercent(100.0);
         lLaser.setLaserOn(true);
         lLaser.setLaserPowerOn(true);
         lLaser.setLaserOn(true);
