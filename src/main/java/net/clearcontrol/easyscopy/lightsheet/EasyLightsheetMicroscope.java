@@ -2,6 +2,7 @@ package net.clearcontrol.easyscopy.lightsheet;
 
 import clearcl.ClearCLContext;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
+import clearcontrol.devices.lasers.schedulers.LaserOnOffScheduler;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
@@ -10,12 +11,17 @@ import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionEngine;
 import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionProcessor;
 import clearcontrol.microscope.lightsheet.signalgen.LightSheetSignalGeneratorDevice;
 import clearcontrol.microscope.lightsheet.state.InterpolatedAcquisitionState;
+import clearcontrol.microscope.lightsheet.state.io.InterpolatedAcquisitionStateReader;
+import clearcontrol.microscope.lightsheet.state.io.InterpolatedAcquisitionStateWriter;
+import clearcontrol.microscope.lightsheet.state.schedulers.AcquisitionStateBackupRestoreScheduler;
+import clearcontrol.microscope.lightsheet.state.schedulers.AcquisitionStateResetScheduler;
 import clearcontrol.microscope.lightsheet.timelapse.LightSheetTimelapse;
 import clearcontrol.microscope.state.AcquisitionType;
 import net.clearcontrol.easyscopy.EasyMicroscope;
 import net.clearcontrol.easyscopy.EasyScope;
 import org.atteo.classindex.ClassIndex;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -167,6 +173,67 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   public LightSheetSignalGeneratorDevice getLightSheetSignalGeneratorDevice(String ... pMustContainStrings) {
     return getDevice(LightSheetSignalGeneratorDevice.class, 0, pMustContainStrings);
   }
+
+  public boolean saveAcquisitionState(String pFilename, InterpolatedAcquisitionState pState){
+    File file = new File(pFilename);
+    return new InterpolatedAcquisitionStateWriter(file, pState).write();
+  }
+
+  public boolean loadAcquisitionState(String pFilename, InterpolatedAcquisitionState pState){
+    File file = new File(pFilename);
+    return new InterpolatedAcquisitionStateReader(file, pState).read();
+  }
+
+  public boolean backupAcquisitionState() {
+    ArrayList<AcquisitionStateBackupRestoreScheduler> lSchedulerList = mLightSheetMicroscope.getDevices(AcquisitionStateBackupRestoreScheduler.class);
+    for (AcquisitionStateBackupRestoreScheduler lScheduler : lSchedulerList) {
+      if (lScheduler.isBackup()) {
+        lScheduler.setMicroscope(mLightSheetMicroscope);
+        lScheduler.initialize();
+        return lScheduler.enqueue(-1);
+      }
+    }
+    return false;
+  }
+
+  public boolean restoreAcquisitionState() {
+    ArrayList<AcquisitionStateBackupRestoreScheduler> lSchedulerList = mLightSheetMicroscope.getDevices(AcquisitionStateBackupRestoreScheduler.class);
+    for (AcquisitionStateBackupRestoreScheduler lScheduler : lSchedulerList) {
+      if (!lScheduler.isBackup()) {
+        lScheduler.setMicroscope(mLightSheetMicroscope);
+        lScheduler.initialize();
+        return lScheduler.enqueue(-1);
+      }
+    }
+    return false;
+  }
+
+  public boolean resetAcquisitionState() {
+    AcquisitionStateResetScheduler
+        lResetter = (AcquisitionStateResetScheduler)mLightSheetMicroscope.getDevice(AcquisitionStateResetScheduler.class, 0);
+    lResetter.setMicroscope(mLightSheetMicroscope);
+    lResetter.initialize();
+    lResetter.enqueue(0);
+    return true;
+  }
+
+  public boolean turnLaserOn(String pLaserNameMustContain) {
+    LaserDeviceInterface lLaser = getLaserDevice(pLaserNameMustContain);
+
+    LaserOnOffScheduler
+        lLaserOnOffScheduler = (LaserOnOffScheduler)new LaserOnOffScheduler(lLaser, true);
+    return lLaserOnOffScheduler.enqueue(0);
+  }
+
+
+  public boolean turnLaserOff(String pLaserNameMustContain) {
+    LaserDeviceInterface lLaser = getLaserDevice(pLaserNameMustContain);
+
+    LaserOnOffScheduler lLaserOnOffScheduler = (LaserOnOffScheduler)new LaserOnOffScheduler(lLaser, false);
+    return lLaserOnOffScheduler.enqueue(0);
+  }
+
+
 
 
 
