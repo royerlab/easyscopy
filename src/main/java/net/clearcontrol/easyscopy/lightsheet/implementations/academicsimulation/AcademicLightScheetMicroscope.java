@@ -35,6 +35,8 @@ public class AcademicLightScheetMicroscope extends
 
     mFusionContext = pStackFusionContext;
     mSimulationContext = pSimulationContext;
+
+    addTimelapse();
   }
 
   ClearCLContext getFusionContext()

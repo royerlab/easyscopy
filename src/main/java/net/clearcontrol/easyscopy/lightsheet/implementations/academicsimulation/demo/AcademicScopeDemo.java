@@ -1,7 +1,9 @@
 package net.clearcontrol.easyscopy.lightsheet.implementations.academicsimulation.demo;
 
+import clearcl.imagej.ClearCLIJ;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.microscope.lightsheet.imaging.DirectImage;
+import clearcontrol.microscope.lightsheet.imaging.SingleViewPlaneImager;
 import clearcontrol.stack.OffHeapPlanarStack;
 import clearcontrol.stack.StackInterface;
 import ij.IJ;
@@ -25,6 +27,7 @@ public class AcademicScopeDemo
 {
   public static void main(String... args) {
     new ImageJ();
+    ClearCLIJ clij = ClearCLIJ.getInstance("HD");
 
     EasyLightsheetMicroscope lScope;
 
@@ -39,13 +42,14 @@ public class AcademicScopeDemo
 
       lAcademicScope.addLightSheet();
       lAcademicScope.addLightSheet();
-      lAcademicScope.addLightSheet();
 
       lAcademicScope.addOpticalSwitch();
       lAcademicScope.addSignalGenerator();
+      lAcademicScope.addAcquisitionStateManager(3);
 
       // mount a sample and
-      lAcademicScope.mountDrosophilaSample(11);
+      //lAcademicScope.mountDrosophilaSample(11);
+      lAcademicScope.mountOrganoidSample(11);
 
       lAcademicScope.turnOn();
 
@@ -63,41 +67,28 @@ public class AcademicScopeDemo
     // Turn on a laser
     LaserDeviceInterface
         lLaser = (LaserDeviceInterface) lScope.getDevice("Laser", "488");
-    lLaser.setTargetPowerInPercent(10);
-    lLaser.setLaserOn(true);
-    lLaser.setLaserPowerOn(true);
-
 
     //lScope.getLightSheetMicroscope().getLightSheet(0).getHeightVariable().set(0);
 
     for (int l = 0; l < lScope.getLightSheetMicroscope().getNumberOfLightSheets(); l++)
     {
-      lLaser.setTargetPowerInPercent(10);
+      lLaser.setTargetPowerInPercent(1);
       lLaser.setLaserOn(true);
       lLaser.setLaserPowerOn(true);
-      lLaser.setTargetPowerInPercent(10);
       lLaser.setLaserOn(true);
       lLaser.setLaserPowerOn(true);
 
       // Take an image
-      DirectImage lImage = (DirectImage) lScope.getDirectImage();
-      lImage.setImageWidth(1024);
-      lImage.setImageHeight(2048);
-      lImage.setIlluminationZ(25);
-      lImage.setDetectionZ(25);
-      lImage.setLightSheetIndex(l);
-      //    lImage.setLightSheetIndex();
-
-      StackInterface lStack = lImage.acquire();
+      SingleViewPlaneImager imager = lScope.getSingleViewPlaneImager();
+      imager.setImageWidth(1024);
+      imager.setImageHeight(2048);
+      imager.setMinZ(25);
+      imager.setLightSheetIndex(l);
 
       // start acquisition
-      RandomAccessibleInterval<UnsignedShortType>
-          img =
-          EasyScopyUtilities.stackToImg((OffHeapPlanarStack)lStack);
+      StackInterface lStack = imager.acquire();
 
-      // show the image
-      ImageJFunctions.show(img);
-      IJ.run("Enhance Contrast", "saturated=0.35");
+      clij.show(lStack, "stack L" + l);
     }
   }
 }

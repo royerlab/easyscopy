@@ -19,11 +19,17 @@ import clearcontrol.microscope.lightsheet.signalgen.LightSheetSignalGeneratorDev
 import clearcontrol.microscope.lightsheet.simulation.LightSheetMicroscopeSimulationDevice;
 import clearcontrol.microscope.lightsheet.simulation.LightSheetSimulationStackProvider;
 import clearcontrol.microscope.lightsheet.simulation.SimulationUtils;
+import clearcontrol.microscope.lightsheet.state.ControlPlaneLayout;
+import clearcontrol.microscope.lightsheet.state.InterpolatedAcquisitionState;
+import clearcontrol.microscope.lightsheet.state.LightSheetAcquisitionStateInterface;
+import clearcontrol.microscope.lightsheet.timelapse.SingleViewAcquisitionScheduler;
+import clearcontrol.microscope.state.AcquisitionStateManager;
 import net.clearcontrol.easyscopy.EasyScope;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
 import simbryo.synthoscopy.microscope.aberration.IlluminationMisalignment;
 import simbryo.synthoscopy.microscope.lightsheet.LightSheetMicroscopeSimulatorOrtho;
 import simbryo.synthoscopy.microscope.lightsheet.drosophila.LightSheetMicroscopeSimulatorDrosophila;
+import simbryo.synthoscopy.microscope.lightsheet.organoid.LightSheetMicroscopeSimulatorOrganoid;
 import simbryo.synthoscopy.microscope.parameters.PhantomParameter;
 import simbryo.synthoscopy.microscope.parameters.UnitConversion;
 import simbryo.textures.noise.UniformNoise;
@@ -66,7 +72,7 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
     getLightSheetMicroscope().addDevice(0, lLaser);
   }
 
-  public void mountDrosophilaSample(int pDivisionTime) {
+  private void mountSample(LightSheetMicroscopeSimulatorOrtho pOrtho) {
 
     if (getLightSheetMicroscope().getDevice(LightSheetMicroscopeSimulationDevice.class, 0 ) != null) {
       warning("Warning: There is a sample mounted already! You cannot mount another one!");
@@ -74,17 +80,10 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
     }
 
     LightSheetMicroscopeSimulationDevice
-        lSimulatorDevice =
-        getSimulatorDevice(mAcademicLightSheetMicroscope.getSimulationContext(),
-                           getDrosophilaFromVirtualFlyLab(mAcademicLightSheetMicroscope.getSimulationContext(),
-                                mAcademicLightSheetMicroscope.getNumberOfDetectionArms(),
-                                mAcademicLightSheetMicroscope.getNumberOfLightSheets(),
-                                2048,
-                                pDivisionTime,
-                                320,
-                                320,
-                                320),
-                                false);
+            lSimulatorDevice =
+            getSimulatorDevice(mAcademicLightSheetMicroscope.getSimulationContext(),
+                    pOrtho,
+                    false);
 
     getLightSheetMicroscope().addDevice(0, lSimulatorDevice);
 
@@ -94,11 +93,33 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
     for (StackCameraDeviceSimulator lCameraDevice : getLightSheetMicroscope().getDevices(StackCameraDeviceSimulator.class))
     {
       LightSheetSimulationStackProvider
-          lStackProvider =
-          lSimulatorDevice.getStackProvider(count);
+              lStackProvider =
+              lSimulatorDevice.getStackProvider(count);
       lCameraDevice.setStackCameraSimulationProvider(lStackProvider);
       count++;
     }
+  }
+
+  public void mountDrosophilaSample(int pDivisionTime) {
+    mountSample(getDrosophilaFromVirtualFlyLab(mAcademicLightSheetMicroscope.getSimulationContext(),
+            mAcademicLightSheetMicroscope.getNumberOfDetectionArms(),
+            mAcademicLightSheetMicroscope.getNumberOfLightSheets(),
+            2048,
+            pDivisionTime,
+            320,
+            320,
+            320));
+  }
+
+  public void mountOrganoidSample(int pDivisionTime) {
+    mountSample(getOrganoidFromVirtualWetlab(mAcademicLightSheetMicroscope.getSimulationContext(),
+            mAcademicLightSheetMicroscope.getNumberOfDetectionArms(),
+            mAcademicLightSheetMicroscope.getNumberOfLightSheets(),
+            2048,
+            pDivisionTime,
+            160,
+            160,
+            160));
   }
 
   private LightSheetMicroscopeSimulatorOrtho getDrosophilaFromVirtualFlyLab(ClearCLContext pSimulationContext,
@@ -131,6 +152,38 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
                                                                0));
 
     return lSimulator;
+  }
+
+  private LightSheetMicroscopeSimulatorOrtho getOrganoidFromVirtualWetlab(ClearCLContext pSimulationContext,
+                                                                          int pNumberOfDetectionArms,
+                                                                          int pNumberOfLightSheets,
+                                                                          int pMaxCameraResolution,
+                                                                          float pDivisionTime,
+                                                                          int pPhantomWidth,
+                                                                          int pPhantomHeight,
+                                                                          int pPhantomDepth) {
+
+    LightSheetMicroscopeSimulatorOrganoid lSimulator = new LightSheetMicroscopeSimulatorOrganoid(pSimulationContext,
+              pNumberOfDetectionArms,
+              pNumberOfLightSheets,
+              pMaxCameraResolution,
+              pDivisionTime,
+              pPhantomWidth,
+              pPhantomHeight,
+              pPhantomDepth);
+
+
+      // lSimulator.openViewerForControls();
+      lSimulator.setFreezedEmbryo(true);
+      lSimulator.setNumberParameter(UnitConversion.Length, 0, 700f);
+
+      // lSimulator.addAbberation(new Miscalibration());
+      // lSimulator.addAbberation(new SampleDrift());
+      lSimulator.addAbberation(IlluminationMisalignment.buildXYZ(0,
+              0,
+              0));
+
+      return lSimulator;
   }
 
   private LightSheetMicroscopeSimulationDevice getSimulatorDevice( ClearCLContext pSimulationContext,
@@ -269,6 +322,13 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
                                     getLightSheetMicroscope().getNumberOfLightSheets());
 
     getLightSheetMicroscope().addDevice(0, lLightSheetOpticalSwitch);
+
+    for (int c = 0; c < getLightSheetMicroscope().getNumberOfDetectionArms(); c++) {
+      for (int l = 0; l < getLightSheetMicroscope().getNumberOfLightSheets(); l++) {
+        getLightSheetMicroscope().addDevice(0, new SingleViewAcquisitionScheduler(c, l, getLightSheetMicroscope().getRecycler(c)));
+      }
+    }
+
   }
 
   public void addSignalGenerator() {
@@ -288,9 +348,21 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
     getLightSheetMicroscope().addDevice(0, lLightSheetSignalGeneratorDevice);
   }
 
+  public void addAcquisitionStateManager(int pNumberOfControlPlanes) {
+    AcquisitionStateManager<LightSheetAcquisitionStateInterface<?>> lAcquisitionStateManager;
+    lAcquisitionStateManager =
+            (AcquisitionStateManager<LightSheetAcquisitionStateInterface<?>>) getLightSheetMicroscope().addAcquisitionStateManager();
+    InterpolatedAcquisitionState lAcquisitionState =
+            new InterpolatedAcquisitionState("default",
+                    getLightSheetMicroscope());
+    lAcquisitionState.setupControlPlanes(pNumberOfControlPlanes,
+            ControlPlaneLayout.Circular);
+    lAcquisitionState.copyCurrentMicroscopeSettings();
+    lAcquisitionStateManager.setCurrentState(lAcquisitionState);
+  }
+
   public boolean turnOn()
   {
-
     info("Opening microscope devices...");
     if (getLightSheetMicroscope().open())
     {
