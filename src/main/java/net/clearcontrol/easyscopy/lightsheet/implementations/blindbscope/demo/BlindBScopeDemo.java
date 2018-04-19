@@ -83,8 +83,8 @@ public class BlindBScopeDemo {
         System.out.println("I AM HERE: "+lScope.getDevices());
         //---------------------------------------------------
         //Setting Filter Wheel Position
-        //FilterWheelDeviceInterface lfilter = lScope.getFilterWheelDevice("FLIFilterWheel");
-        //lfilter.setPosition(7);
+        FilterWheelDeviceInterface lfilter = lScope.getFilterWheelDevice("FLIFilterWheel");
+        lfilter.setPosition(7);
 
         //----------------------------------------------------------------
         //Turning Laser on
