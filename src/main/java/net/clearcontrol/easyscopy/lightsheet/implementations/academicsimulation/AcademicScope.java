@@ -15,6 +15,7 @@ import clearcontrol.devices.signalgen.devices.sim.SignalGeneratorSimulatorDevice
 import clearcontrol.microscope.lightsheet.component.detection.DetectionArm;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheet;
 import clearcontrol.microscope.lightsheet.component.opticalswitch.LightSheetOpticalSwitch;
+import clearcontrol.microscope.lightsheet.imaging.singleview.SingleViewAcquisitionScheduler;
 import clearcontrol.microscope.lightsheet.signalgen.LightSheetSignalGeneratorDevice;
 import clearcontrol.microscope.lightsheet.simulation.LightSheetMicroscopeSimulationDevice;
 import clearcontrol.microscope.lightsheet.simulation.LightSheetSimulationStackProvider;
@@ -22,7 +23,6 @@ import clearcontrol.microscope.lightsheet.simulation.SimulationUtils;
 import clearcontrol.microscope.lightsheet.state.ControlPlaneLayout;
 import clearcontrol.microscope.lightsheet.state.InterpolatedAcquisitionState;
 import clearcontrol.microscope.lightsheet.state.LightSheetAcquisitionStateInterface;
-import clearcontrol.microscope.lightsheet.timelapse.SingleViewAcquisitionScheduler;
 import clearcontrol.microscope.state.AcquisitionStateManager;
 import net.clearcontrol.easyscopy.EasyScope;
 import net.clearcontrol.easyscopy.lightsheet.EasyLightsheetMicroscope;
@@ -325,7 +325,7 @@ public class AcademicScope extends EasyLightsheetMicroscope implements
 
     for (int c = 0; c < getLightSheetMicroscope().getNumberOfDetectionArms(); c++) {
       for (int l = 0; l < getLightSheetMicroscope().getNumberOfLightSheets(); l++) {
-        getLightSheetMicroscope().addDevice(0, new SingleViewAcquisitionScheduler(c, l, getLightSheetMicroscope().getRecycler(c)));
+        getLightSheetMicroscope().addDevice(0, new SingleViewAcquisitionScheduler(c, l));
       }
     }
 
