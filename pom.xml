@@ -14,7 +14,7 @@
 
 	<groupId>net.clearcontrol</groupId>
 	<artifactId>easyscopy</artifactId>
-	<version>0.1.18</version>
+	<version>0.1.20</version>
 
 	<name>EasyScopy</name>
 	<description>EasyScopy</description>
@@ -107,7 +107,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearcontrol-lightsheet</artifactId>
-			<version>1.24.0</version>
+			<version>1.27.3</version>
 		</dependency>
         <dependency>
             <groupId>com.nativelibs4java</groupId>
@@ -147,7 +147,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>XWing</artifactId>
-			<version>1.0.22</version>
+			<version>1.0.29</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
@@ -157,7 +157,7 @@
 		<dependency>
 			<groupId>net.clearcontrol</groupId>
 			<artifactId>clearcontrol</artifactId>
-			<version>0.15.10</version>
+			<version>0.16.6</version>
 		</dependency>
 		<dependency>
 			<groupId>net.clearvolume</groupId>
