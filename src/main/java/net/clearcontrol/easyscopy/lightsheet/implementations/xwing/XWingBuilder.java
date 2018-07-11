@@ -7,7 +7,6 @@ import clearcl.backend.ClearCLBackends;
 import clearcontrol.core.concurrent.thread.ThreadSleep;
 import clearcontrol.core.configuration.MachineConfiguration;
 import clearcontrol.core.log.LoggingFeature;
-import clearcontrol.microscope.lightsheet.extendeddepthoffocus.EDFImagingEngine;
 import clearcontrol.microscope.lightsheet.simulation.LightSheetMicroscopeSimulationDevice;
 import clearcontrol.microscope.lightsheet.simulation.SimulationUtils;
 import xwing.XWingMicroscope;

@@ -48,8 +48,8 @@ public class AcademicScopeDemo
       lAcademicScope.addAcquisitionStateManager(3);
 
       // mount a sample and
-      //lAcademicScope.mountDrosophilaSample(11);
-      lAcademicScope.mountOrganoidSample(11);
+      lAcademicScope.mountDrosophilaSample(11);
+      //lAcademicScope.mountOrganoidSample(11);
 
       lAcademicScope.turnOn();
 

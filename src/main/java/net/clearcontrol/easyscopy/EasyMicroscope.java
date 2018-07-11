@@ -6,11 +6,11 @@ import clearcontrol.devices.lasers.LaserDeviceInterface;
 import clearcontrol.devices.optomech.filterwheels.FilterWheelDeviceInterface;
 import clearcontrol.devices.signalgen.SignalGeneratorInterface;
 import clearcontrol.devices.stages.BasicStageInterface;
+import clearcontrol.instructions.InstructionInterface;
 import clearcontrol.microscope.MicroscopeInterface;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.component.detection.DetectionArmInterface;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
-import clearcontrol.microscope.lightsheet.component.scheduler.SchedulerInterface;
 import clearcontrol.microscope.lightsheet.spatialphasemodulation.slms.SpatialPhaseModulatorDeviceInterface;
 
 import java.util.ArrayList;
@@ -81,8 +81,8 @@ public abstract class EasyMicroscope
     return getDevice(SignalGeneratorInterface.class, 0, pMustContainStrings);
   }
 
-  public SchedulerInterface getSchedulerDevice(String... pMustContainStrings) {
-    return getDevice(SchedulerInterface.class, 0, pMustContainStrings);
+  public InstructionInterface getInstructionDevice(String... pMustContainStrings) {
+    return getDevice(InstructionInterface.class, 0, pMustContainStrings);
   }
 
 

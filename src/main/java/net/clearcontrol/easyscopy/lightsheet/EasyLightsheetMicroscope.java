@@ -1,25 +1,20 @@
 package net.clearcontrol.easyscopy.lightsheet;
 
-import clearcl.ClearCLContext;
 import clearcontrol.devices.lasers.LaserDeviceInterface;
-import clearcontrol.devices.lasers.schedulers.LaserOnOffScheduler;
+import clearcontrol.devices.lasers.instructions.LaserOnOffInstruction;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscope;
 import clearcontrol.microscope.lightsheet.LightSheetMicroscopeQueue;
 import clearcontrol.microscope.lightsheet.component.lightsheet.LightSheetInterface;
 import clearcontrol.microscope.lightsheet.imaging.*;
-import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionEngine;
-import clearcontrol.microscope.lightsheet.processor.LightSheetFastFusionProcessor;
 import clearcontrol.microscope.lightsheet.signalgen.LightSheetSignalGeneratorDevice;
 import clearcontrol.microscope.lightsheet.state.InterpolatedAcquisitionState;
+import clearcontrol.microscope.lightsheet.state.instructions.AcquisitionStateBackupRestoreInstruction;
+import clearcontrol.microscope.lightsheet.state.instructions.AcquisitionStateResetInstruction;
 import clearcontrol.microscope.lightsheet.state.io.InterpolatedAcquisitionStateReader;
 import clearcontrol.microscope.lightsheet.state.io.InterpolatedAcquisitionStateWriter;
-import clearcontrol.microscope.lightsheet.state.schedulers.AcquisitionStateBackupRestoreScheduler;
-import clearcontrol.microscope.lightsheet.state.schedulers.AcquisitionStateResetScheduler;
 import clearcontrol.microscope.lightsheet.timelapse.LightSheetTimelapse;
 import clearcontrol.microscope.state.AcquisitionType;
 import net.clearcontrol.easyscopy.EasyMicroscope;
-import net.clearcontrol.easyscopy.EasyScope;
-import org.atteo.classindex.ClassIndex;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -185,10 +180,9 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   }
 
   public boolean backupAcquisitionState() {
-    ArrayList<AcquisitionStateBackupRestoreScheduler> lSchedulerList = mLightSheetMicroscope.getDevices(AcquisitionStateBackupRestoreScheduler.class);
-    for (AcquisitionStateBackupRestoreScheduler lScheduler : lSchedulerList) {
+    ArrayList<AcquisitionStateBackupRestoreInstruction> lSchedulerList = mLightSheetMicroscope.getDevices(AcquisitionStateBackupRestoreInstruction.class);
+    for (AcquisitionStateBackupRestoreInstruction lScheduler : lSchedulerList) {
       if (lScheduler.isBackup()) {
-        lScheduler.setMicroscope(mLightSheetMicroscope);
         lScheduler.initialize();
         return lScheduler.enqueue(-1);
       }
@@ -197,10 +191,9 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   }
 
   public boolean restoreAcquisitionState() {
-    ArrayList<AcquisitionStateBackupRestoreScheduler> lSchedulerList = mLightSheetMicroscope.getDevices(AcquisitionStateBackupRestoreScheduler.class);
-    for (AcquisitionStateBackupRestoreScheduler lScheduler : lSchedulerList) {
+    ArrayList<AcquisitionStateBackupRestoreInstruction> lSchedulerList = mLightSheetMicroscope.getDevices(AcquisitionStateBackupRestoreInstruction.class);
+    for (AcquisitionStateBackupRestoreInstruction lScheduler : lSchedulerList) {
       if (!lScheduler.isBackup()) {
-        lScheduler.setMicroscope(mLightSheetMicroscope);
         lScheduler.initialize();
         return lScheduler.enqueue(-1);
       }
@@ -209,9 +202,8 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   }
 
   public boolean resetAcquisitionState() {
-    AcquisitionStateResetScheduler
-        lResetter = (AcquisitionStateResetScheduler)mLightSheetMicroscope.getDevice(AcquisitionStateResetScheduler.class, 0);
-    lResetter.setMicroscope(mLightSheetMicroscope);
+    AcquisitionStateResetInstruction
+        lResetter = (AcquisitionStateResetInstruction)mLightSheetMicroscope.getDevice(AcquisitionStateResetInstruction.class, 0);
     lResetter.initialize();
     lResetter.enqueue(0);
     return true;
@@ -220,8 +212,8 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   public boolean turnLaserOn(String pLaserNameMustContain) {
     LaserDeviceInterface lLaser = getLaserDevice(pLaserNameMustContain);
 
-    LaserOnOffScheduler
-        lLaserOnOffScheduler = (LaserOnOffScheduler)new LaserOnOffScheduler(lLaser, true);
+    LaserOnOffInstruction
+        lLaserOnOffScheduler = (LaserOnOffInstruction)new LaserOnOffInstruction(lLaser, true);
     return lLaserOnOffScheduler.enqueue(0);
   }
 
@@ -229,7 +221,7 @@ public abstract class EasyLightsheetMicroscope extends EasyMicroscope
   public boolean turnLaserOff(String pLaserNameMustContain) {
     LaserDeviceInterface lLaser = getLaserDevice(pLaserNameMustContain);
 
-    LaserOnOffScheduler lLaserOnOffScheduler = (LaserOnOffScheduler)new LaserOnOffScheduler(lLaser, false);
+    LaserOnOffInstruction lLaserOnOffScheduler = (LaserOnOffInstruction)new LaserOnOffInstruction(lLaser, false);
     return lLaserOnOffScheduler.enqueue(0);
   }
 
