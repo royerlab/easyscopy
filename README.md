@@ -1,3 +1,8 @@
+This project has been discontinued/archived because it became part of clearcontrol-lightsheet at some point and it's API was changed.
+
+
+
+
 # EasyScopy
 Fiji plugin for microscope control scripting. 
 
